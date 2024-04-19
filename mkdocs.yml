@@ -1,1 +1,21 @@
-site_name: My Docs
+site_name: Keystone
+theme:
+  name: material
+  font:
+    text: Roboto
+    code: Roboto Mono
+  features:
+    - content.code.copy
+    - search.suggest
+    - navigation.tabs
+     - navigation.sections
+    - navigation.top
+    - content.code.annotate
+plugins:
+  - search
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+nav:
+  - index.md
