@@ -1,0 +1,3 @@
+[submodule "docs/submodules/keystone-api"]
+	path = docs/submodules/keystone-api
+	url = https://github.com/pitt-crc/keystone-api
