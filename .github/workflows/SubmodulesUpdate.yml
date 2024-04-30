@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [ update-submodules ]
 
+env:
+  repo_name: ${{ github.event.client_payload.repo_name }}
+  tag: ${{ github.event.client_payload.tag }}
+
 jobs:
   update_modules:
     name: Update Submodules
@@ -11,8 +15,8 @@ jobs:
     steps:
       - name: Validate inputs
         run: |
-          [[ "${{ github.event.client_payload.repo_name }}" ]] || { echo "Input \"repo_name\" cannot be empty" ; exit 1; }
-          [[ "${{ github.event.client_payload.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
+          [[ "${{ env.repo_name }}" ]] || { echo "Input \"repo_name\" cannot be empty" ; exit 1; }
+          [[ "${{ env.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
     
       - name: Checkout source
         uses: actions/checkout@v4
@@ -20,13 +24,13 @@ jobs:
           submodules: true
 
       - name: Update submodule
-        working-directory: docs/submodules/${{ github.event.client_payload.repo-name }}
-        run: git checkout ${{ github.event.client_payload.tag }}
+        working-directory: docs/submodules/${{ env.repo-name }}
+        run: git checkout ${{ env.tag }}
 
       - name: Update parent repository
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit --allow-empty -m "Updates ${{ github.event.client_payload.repo-name }} to ${{ github.event.client_payload.tag }}"
+          git commit --allow-empty -m "Updates ${{ env.repo-name }} to ${{ env.tag }}"
           git push
