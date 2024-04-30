@@ -1,0 +1,33 @@
+name: Update Submodules
+
+on:
+  workflow_call:
+    inputs:
+      repo-name:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+
+jobs:
+  update_modules:
+    name: Update Submodules
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Update submodule
+        working-directory: docs/submodules/${{ inputs.repo-name }}
+        run: git checkout ${{ inputs.tag }}
+
+      - name: Update parent repository
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "Updates ${{ inputs.repo-name }} to ${{ inputs.tag }}"
+          git push
