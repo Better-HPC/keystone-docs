@@ -25,7 +25,9 @@ jobs:
 
       - name: Update submodule
         working-directory: docs/submodules/${{ env.repo-name }}
-        run: git checkout ${{ env.tag }}
+        run: |
+          git fetch
+          git checkout ${{ env.tag }}
 
       - name: Update parent repository
         run: |
