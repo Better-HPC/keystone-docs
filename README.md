@@ -1,8 +1,8 @@
 # Keystone Documentation
 
-This repository acts as a git-ops staging ground for publishing the Keystone documentation.
+This repository acts as a GitOps staging ground for publishing the Keystone documentation.
 Project level documentation is stored in this repository and combined with component level documentation
-(e.g., Keystone-PI, Keystone-Web) via Git submodules.
+(e.g., Keystone-API, Keystone-Web) via Git submodules.
 
 ## Resources
 
