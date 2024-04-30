@@ -1,7 +1,8 @@
 name: Update Submodules
 
 on:
-  workflow_call:
+  repository_dispatch:
+    types: [ update-submodules ]
     inputs:
       repo-name:
         required: true
