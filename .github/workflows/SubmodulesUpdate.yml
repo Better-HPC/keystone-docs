@@ -20,8 +20,8 @@ jobs:
           submodules: true
 
       - name: Update submodule
-        working-directory: docs/submodules/${{ inputs.repo-name }}
-        run: git checkout ${{ inputs.tag }}
+        working-directory: docs/submodules/${{ github.event.client_payload.repo-name }}
+        run: git checkout ${{ github.event.client_payload.tag }}
 
       - name: Update parent repository
         run: |
