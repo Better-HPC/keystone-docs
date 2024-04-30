@@ -18,8 +18,8 @@ jobs:
     steps:
       - name: Validate inputs
         run: |
-          [[ "${{ inputs.repo-name }}" ]] || { echo "Input \"repo-name\" is required" ; exit 1; }
-          [[ "${{ inputs.tag }}" ]] || { echo "Input \"tag\" is required" ; exit 1; }
+          [[ "${{ inputs.repo-name }}" ]] || { echo "Input \"repo-name\" cannot be empty" ; exit 1; }
+          [[ "${{ inputs.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
     
       - name: Checkout source
         uses: actions/checkout@v4
