@@ -11,8 +11,8 @@ jobs:
     steps:
       - name: Validate inputs
         run: |
-          [[ "${{ github.event.repo_name }}" ]] || { echo "Input \"repo_name\" cannot be empty" ; exit 1; }
-          [[ "${{ github.event.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
+          [[ "${{ github.event.client_payload.repo_name }}" ]] || { echo "Input \"repo_name\" cannot be empty" ; exit 1; }
+          [[ "${{ github.event.client_payload.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
     
       - name: Checkout source
         uses: actions/checkout@v4
@@ -28,5 +28,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit --allow-empty -m "Updates ${{ inputs.repo-name }} to ${{ inputs.tag }}"
+          git commit --allow-empty -m "Updates ${{ github.event.client_payload.repo-name }} to ${{ github.event.client_payload.tag }}"
           git push
