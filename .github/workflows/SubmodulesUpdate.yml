@@ -3,13 +3,6 @@ name: Update Submodules
 on:
   repository_dispatch:
     types: [ update-submodules ]
-    inputs:
-      repo-name:
-        required: true
-        type: string
-      tag:
-        required: true
-        type: string
 
 jobs:
   update_modules:
@@ -18,8 +11,8 @@ jobs:
     steps:
       - name: Validate inputs
         run: |
-          [[ "${{ inputs.repo-name }}" ]] || { echo "Input \"repo-name\" cannot be empty" ; exit 1; }
-          [[ "${{ inputs.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
+          [[ "${{ github.event.repo_name }}" ]] || { echo "Input \"repo_name\" cannot be empty" ; exit 1; }
+          [[ "${{ github.event.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
     
       - name: Checkout source
         uses: actions/checkout@v4
