@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate inputs
-      - run: |
+        run: |
           [[ "${{ inputs.repo-name }}" ]] || { echo "Input \"repo-name\" is required" ; exit 1; }
           [[ "${{ inputs.tag }}" ]] || { echo "Input \"tag\" is required" ; exit 1; }
     
