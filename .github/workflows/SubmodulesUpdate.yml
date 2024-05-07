@@ -26,6 +26,7 @@ jobs:
       - name: Update submodule
         working-directory: docs/submodules/${{ env.repo-name }}
         run: |
+          pwd
           git fetch --all
           git branch
           git checkout ${{ env.tag }}
