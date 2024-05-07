@@ -27,7 +27,7 @@ jobs:
         working-directory: docs/submodules/${{ env.repo_name }}
         run: |
           echo "Updating $(pwd)"
-          git fetch
+          git fetch --all
           git checkout ${{ env.tag }}
 
       - name: Update parent repository
