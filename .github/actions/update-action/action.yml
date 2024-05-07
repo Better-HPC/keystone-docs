@@ -1,19 +1,19 @@
 name: "Update Submodules"
 
-description: "Update repositry submodules to a given tag."
+description: "Update repository submodules to a given tag."
 
 inputs:
   keystone-gitops-id: 
-    description: "Application ID for the Keystone gitops GitHub application"
+    description: "Application ID for the Keystone GitOps GitHub application"
     required: true
   keystone-gitops-pk: 
-    description: "Private key from the Keystone gitops GitHub application"
+    description: "Private key from the Keystone GitOps GitHub application"
     required: true
   repo-name: 
-    description: "Name of the repsitory"
+    description: "Name of the repository"
     required: true
   tag: 
-    description: "Repsitry tag to checkout"
+    description: "Repository tag to checkout"
     required: true
 
 runs:
