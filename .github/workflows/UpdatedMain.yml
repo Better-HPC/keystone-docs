@@ -1,0 +1,11 @@
+name: 🎯 Updated Main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Publish
+    uses: ./.github/workflows/Publish.yml
