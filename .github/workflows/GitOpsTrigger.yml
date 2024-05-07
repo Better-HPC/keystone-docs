@@ -1,4 +1,4 @@
-name: Update Submodules
+name: 🎯 GitOps Trigger
 
 on:
   repository_dispatch:
@@ -37,3 +37,8 @@ jobs:
           git add .
           git commit --allow-empty -m "Updates ${{ env.repo_name }} to ${{ env.tag }}"
           git push
+
+  publish:
+    name: Publish
+    needs: update_modules
+    uses: ./.github/workflows/Publish.yml
