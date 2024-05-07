@@ -3,6 +3,12 @@ name: "Update Submodules"
 description: "Update repositry submodules to a given tag."
 
 inputs:
+  keystone-gitops-id: 
+    description: "Application ID for the Keystone gitops GitHub application"
+    required: true
+  keystone-gitops-pk: 
+    description: "Private key from the Keystone gitops GitHub application"
+    required: true
   repo-name: 
     description: "Name of the repsitory"
     required: true
@@ -13,17 +19,17 @@ inputs:
 runs:
   using: "composite"
   steps:
-      - name: Get Token
-        id: get_workflow_token
-        uses: peter-murray/workflow-application-token-action@v3
-        with:
-          application_id: ${{ secrets.KEYSTONE_GITOPS_ID }}
-          application_private_key: ${{ secrets.KEYSTONE_GITOPS_PK }}
+    - name: Get Token
+      id: get_workflow_token
+      uses: peter-murray/workflow-application-token-action@v3
+      with:
+        application_id: ${{ inputs.keystone-gitops-id }}
+        application_private_key: ${{ inputs.keystone-gitops-pk }}
 
-      - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ steps.get_workflow_token.outputs.token }}
-          repository: pitt-crc/Keystone-Docs
-          event-type: update-submodules
-          client-payload: '{"repo_name": "${{ inputs.repo-name }}", "tag": "${{ inputs.tag}}"}'
+    - name: Repository Dispatch
+      uses: peter-evans/repository-dispatch@v3
+      with:
+        token: ${{ steps.get_workflow_token.outputs.token }}
+        repository: pitt-crc/Keystone-Docs
+        event-type: update-submodules
+        client-payload: '{"repo_name": "${{ inputs.repo-name }}", "tag": "${{ inputs.tag}}"}'
