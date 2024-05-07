@@ -24,11 +24,9 @@ jobs:
           submodules: true
 
       - name: Update submodule
-        working-directory: docs/submodules/${{ env.repo-name }}
+        working-directory: docs/submodules/${{ env.repo_name }}
         run: |
-          pwd
-          git fetch --all
-          git branch
+          echo "Updating $(pwd)"
           git checkout ${{ env.tag }}
 
       - name: Update parent repository
@@ -36,5 +34,5 @@ jobs:
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
-          git commit --allow-empty -m "Updates ${{ env.repo-name }} to ${{ env.tag }}"
+          git commit --allow-empty -m "Updates ${{ env.repo_name }} to ${{ env.tag }}"
           git push
