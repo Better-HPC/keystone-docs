@@ -12,7 +12,7 @@ Project level documentation is stored in this repository and combined with compo
 
 ## Usage
 
-A compsite GitHub action is provided to streamline GitOps activities against this repsitry.
+A composite GitHub action is provided to streamline GitOps activities against this repsitry.
 The following example job will update the `keyston-api` submodule to tag `tags/v0.3.8` and publish new documentation.
 Authentication/permissions are handled via a GitHub application identified by the application ID (`keystone-gitops-id`) and primary key (`keystone-gitops-pk`).
 
