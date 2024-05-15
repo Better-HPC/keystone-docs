@@ -12,10 +12,12 @@ theme:
     - navigation.top
     - content.code.annotate
     - content.code.copy
+    - content.tabs.link
 plugins:
   - monorepo
   - search
-  - render_swagger
+  - render_swagger:
+      allow_arbitrary_locations : true
 markdown_extensions:
   - abbr
   - admonition
@@ -44,5 +46,7 @@ markdown_extensions:
   - pymdownx.tilde
   - tables
 nav:
-  - index.md
+  - Keystone:
+    - index.md
+    - architecture.md
   - Keystone-API: '!include docs/submodules/keystone-api/mkdocs.yml'
