@@ -45,6 +45,8 @@ markdown_extensions:
       custom_checkbox: true
   - pymdownx.tilde
   - tables
+  - toc:
+      permalink: true
 nav:
   - Keystone:
     - index.md
