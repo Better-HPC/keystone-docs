@@ -47,6 +47,8 @@ markdown_extensions:
   - tables
   - toc:
       permalink: true
+extra:
+  generator: false
 nav:
   - Keystone:
     - index.md
