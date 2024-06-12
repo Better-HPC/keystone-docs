@@ -1,0 +1,36 @@
+name: 🤖 Build
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        description: 'Repository tag to checkout when building docs.'
+        required: false
+        type: string
+
+jobs:
+  build:
+    name: Build HTML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+          ref: ${{ inputs.tag }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build HTML
+        run: mkdocs build
+
+      - name: Upload docs to artifact storage
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site

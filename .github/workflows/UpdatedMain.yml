@@ -6,6 +6,11 @@ on:
       - main
 
 jobs:
+  build:
+    name: Build
+    uses: ./.github/workflows/Build.yml
+
   publish:
     name: Publish
+    needs: build
     uses: ./.github/workflows/Publish.yml
