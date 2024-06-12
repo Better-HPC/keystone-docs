@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   publish:
-    name: Publish Documentation
+    name: GitHub Pages
     runs-on: ubuntu-latest
     
     environment:
