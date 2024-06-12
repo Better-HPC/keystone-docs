@@ -1,3 +1,5 @@
 # Architecture
 
-![keystone.drawio.svg](keystone.drawio.svg)
+<figure markdown="span">
+  ![keystone-color.svg](assets/img/keystone-color.svg)
+</figure>
