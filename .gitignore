@@ -1,6 +1,5 @@
-# Distribution and packaging
-__pycache__/
-dist/
+# Compiled source code
+site/
 
 # IDE / Developer
 .idea/

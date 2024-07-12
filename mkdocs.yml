@@ -16,8 +16,6 @@ theme:
 plugins:
   - monorepo
   - search
-  - render_swagger:
-      allow_arbitrary_locations : true
 markdown_extensions:
   - abbr
   - admonition

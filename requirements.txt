@@ -1,3 +1,2 @@
 mkdocs-material == 9.5.27
 mkdocs-monorepo-plugin == 1.1.0
-mkdocs-render-swagger-plugin == 0.1.2
