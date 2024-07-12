@@ -4,3 +4,6 @@
 [submodule "docs/submodules/keystone-web"]
 	path = docs/submodules/keystone-web
 	url = https://github.com/pitt-crc/keystone-web
+[submodule "docs/submodules/keystone-python-client"]
+	path = docs/submodules/keystone-python-client
+	url = https://github.com/pitt-crc/keystone-python-client
