@@ -12,6 +12,7 @@ Project level documentation is stored in this repository and combined with compo
 
 ## Usage
 
+New documentation is automatically built and published every time the `main` branch is updated.
 A composite GitHub action is provided to streamline GitOps activities against this repository.
 The following example job will update the `keyston-api` submodule to tag `tags/v0.3.8` and publish new documentation.
 Authentication/permissions are handled via a GitHub application identified by the application ID (`keystone-gitops-id`) and primary key (`keystone-gitops-pk`).
