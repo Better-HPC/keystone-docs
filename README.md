@@ -3,7 +3,7 @@
 This repository acts as a GitOps staging ground for publishing the Keystone documentation.
 Project level documentation is stored in this repository and combined with component level documentation
 (e.g., Keystone-API, Keystone-Web) via Git submodules.
-![architecture(1).svg](..%2F..%2F..%2FDownloads%2Farchitecture%281%29.svg)
+
 ## Resources
 
 - [Keystone-API](https://github.com/pitt-crc/keystone-api): Backend REST API for managing HPC allocations and resources.
