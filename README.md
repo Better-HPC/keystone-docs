@@ -11,11 +11,31 @@ Project level documentation is stored in this repository and combined with compo
 - [Keystone-Python-Client](https://github.com/pitt-crc/keystone-python-client): A light-weight Python client for Keystone API.
 - [Keystone-Docs](https://github.com/pitt-crc/keystone-docs): Documentation for the Keystone project and its components.
 
-## Usage
+## Getting Started
+
+### Working Locally
+
+This repository leverages submodules.
+To clone the repository with submodules included:
+
+```shell
+git clone [URL]
+git submodule init
+git submodule update
+```
+
+To pull changes made to any submodules:
+
+```shell
+git submodule update --remote --recursive
+```
+
+### Working in CI
 
 New documentation is automatically built and published every time the `main` branch is updated.
 A composite GitHub action is provided to streamline GitOps activities against this repository.
-The following example job will update the `keyston-api` submodule to tag `tags/v0.3.8` and publish new documentation.
+
+The following example job updates the `keyston-api` submodule to tag `tags/v0.3.8` and publishes new documentation.
 Authentication/permissions are handled via a GitHub application identified by the application ID (`keystone-gitops-id`) and primary key (`keystone-gitops-pk`).
 
 ```yml
