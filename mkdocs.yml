@@ -14,6 +14,13 @@ theme:
     - content.code.copy
     - content.tabs.link
 plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            allow_inspection: false
+            show_bases: false
+            show_source: false
   - monorepo
   - search
 markdown_extensions:
