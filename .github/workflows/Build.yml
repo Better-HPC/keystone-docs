@@ -27,11 +27,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Install Keystone Modules
-        run: |
-          pip install docs/submodules/keystone-api
-          pip install docs/submodules/keystone-python-client
-
       - name: Build HTML
         run: mkdocs build
 

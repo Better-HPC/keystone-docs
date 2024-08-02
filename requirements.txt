@@ -1,3 +1,5 @@
 mkdocs-material == 9.5.30
 mkdocs-monorepo-plugin == 1.1.0
 mkdocstrings[python]== 0.25.2
+docs/submodules/keystone-api
+docs/submodules/keystone-python-client
