@@ -30,6 +30,18 @@ To pull changes made to any submodules:
 git submodule update --remote --recursive
 ```
 
+After ensuring the submodules are up-to-date, make sure to (re)install the project depenencies.
+
+```shell
+pip install -r requirements.txt
+```
+
+The docs are then built and served locally using the `mkdcs` utility.
+
+```shell
+mkdocs serve
+```
+
 ### Working in CI
 
 New documentation is automatically built and published every time the `main` branch is updated.
