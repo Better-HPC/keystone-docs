@@ -19,18 +19,16 @@ This repository leverages submodules.
 To clone the repository with submodules included:
 
 ```shell
-git clone [URL]
-git submodule init
+git clone [URL] --recurse-submodules
+```
+
+Submodules can also be pulled and updated manually:
+
+```shell
 git submodule update
 ```
 
-To pull changes made to any submodules:
-
-```shell
-git submodule update --remote --recursive
-```
-
-After ensuring the submodules are up-to-date, make sure to (re)install the project depenencies.
+After ensuring the submodules are up-to-date, make sure to (re)install the project dependencies.
 
 ```shell
 pip install -r requirements.txt
