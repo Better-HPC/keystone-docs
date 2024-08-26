@@ -25,7 +25,7 @@ git clone [URL] --recurse-submodules
 Submodules can also be pulled and updated manually:
 
 ```shell
-git submodule update
+git submodule update --init
 ```
 
 After ensuring the submodules are up-to-date, make sure to (re)install the project dependencies.
