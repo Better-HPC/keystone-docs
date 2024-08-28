@@ -30,6 +30,6 @@ runs:
       uses: peter-evans/repository-dispatch@v3
       with:
         token: ${{ steps.get_workflow_token.outputs.token }}
-        repository: pitt-crc/Keystone-Docs
+        repository: better-hpc/Keystone-Docs
         event-type: update-submodules
         client-payload: '{"repo_name": "${{ inputs.repo-name }}", "tag": "${{ inputs.tag}}"}'

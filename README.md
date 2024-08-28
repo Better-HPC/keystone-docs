@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Update docs
-        uses: pitt-crc/keystone-docs/.github/actions/update-action/@main
+        uses: better-hpc/keystone-docs/.github/actions/update-action/@main
         with:
           keystone-gitops-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
           keystone-gitops-pk: ${{ secrets.KEYSTONE_GITOPS_PK }}

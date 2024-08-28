@@ -1,9 +1,9 @@
 [submodule "docs/submodules/keystone-api"]
 	path = docs/submodules/keystone-api
-	url = https://github.com/pitt-crc/keystone-api
+	url = https://github.com/better-hpc/keystone-api
 [submodule "docs/submodules/keystone-web"]
 	path = docs/submodules/keystone-web
-	url = https://github.com/pitt-crc/keystone-web
+	url = https://github.com/better-hpc/keystone-web
 [submodule "docs/submodules/keystone-python-client"]
 	path = docs/submodules/keystone-python-client
-	url = https://github.com/pitt-crc/keystone-python-client
+	url = https://github.com/better-hpc/keystone-python-client
