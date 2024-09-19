@@ -34,7 +34,7 @@ After ensuring the submodules are up-to-date, make sure to (re)install the proje
 pip install -r requirements.txt
 ```
 
-The docs are then built and served locally using the `mkdcs` utility.
+Documentation is compiled and served locally using the `mkdcs` utility.
 
 ```shell
 mkdocs serve
@@ -43,10 +43,12 @@ mkdocs serve
 ### Working in CI
 
 New documentation is automatically built and published every time the `main` branch is updated.
-A composite GitHub action is provided to streamline GitOps activities against this repository.
+CI permissions are granted via the `Keystone-GitOps` GitHub application which must be installed on all upstream repositories.
+See the organization level settings to install and configure the GitHub application on new repositories.
 
-The following example job updates the `keyston-api` submodule to tag `tags/v0.3.8` and publishes new documentation.
-Authentication/permissions are handled via a GitHub application identified by the application ID (`keystone-gitops-id`) and primary key (`keystone-gitops-pk`).
+A composite GitHub action is provided to streamline GitOps activities against this repository.
+The following example job updates the `keystone-api` submodule to tag `tags/v0.3.8` and publishes new documentation.
+Authentication/permissions are handled by the GitHub application identified by its application ID (`keystone-gitops-id`) and primary key (`keystone-gitops-pk`).
 
 ```yml
 jobs:
