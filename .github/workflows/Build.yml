@@ -19,10 +19,6 @@ jobs:
           app-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
           private-key: ${{ secrets.KEYSTONE_GITOPS_PK }}
           owner: ${{ github.repository_owner }}
-          repositories: |
-            keystone-api
-            keystone-web
-            keystone-python-client
           
       - uses: actions/checkout@v4
         with:
