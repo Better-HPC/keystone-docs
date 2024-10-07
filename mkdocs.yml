@@ -13,6 +13,8 @@ theme:
     - content.code.annotate
     - content.code.copy
     - content.tabs.link
+extra_css:
+  - assets/css/full_width_tables.css
 plugins:
   - mkdocstrings:
       handlers:
