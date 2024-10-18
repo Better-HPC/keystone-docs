@@ -13,7 +13,7 @@
         <mxCell id="qE5lgfGQrPTpQ_Ed3BKW-3" value="Web Frontend" style="rounded=1;whiteSpace=wrap;html=1;glass=0;shadow=0;verticalAlign=top;arcSize=6;fontSize=15;align=left;fontStyle=1;spacingLeft=6;" parent="qE5lgfGQrPTpQ_Ed3BKW-1" vertex="1">
           <mxGeometry x="10" width="300" height="140" as="geometry" />
         </mxCell>
-        <mxCell id="qE5lgfGQrPTpQ_Ed3BKW-4" value="&lt;b&gt;API&lt;/b&gt; Backend" style="rounded=1;whiteSpace=wrap;html=1;glass=0;shadow=0;verticalAlign=top;arcSize=2;fontSize=15;align=left;spacingLeft=6;" parent="qE5lgfGQrPTpQ_Ed3BKW-1" vertex="1">
+        <mxCell id="qE5lgfGQrPTpQ_Ed3BKW-4" value="&lt;b&gt;API Backend&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;glass=0;shadow=0;verticalAlign=top;arcSize=2;fontSize=15;align=left;spacingLeft=6;" parent="qE5lgfGQrPTpQ_Ed3BKW-1" vertex="1">
           <mxGeometry y="160" width="480" height="310" as="geometry" />
         </mxCell>
         <mxCell id="qE5lgfGQrPTpQ_Ed3BKW-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="qE5lgfGQrPTpQ_Ed3BKW-1" source="qE5lgfGQrPTpQ_Ed3BKW-42" target="qE5lgfGQrPTpQ_Ed3BKW-23" edge="1">
