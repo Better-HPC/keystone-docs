@@ -10,23 +10,19 @@ It also allows application components to be bundled for deployment on smaller, s
 Keystone employs a traditional, three-tiered web architecture comprising a frontend, backend, and persistence layer.
 End user access is typically restricted to the front end layer, but the API is designed with security in mind and can be deployed for broader access.
 
-<figure markdown="span">
-  ![architecture.svg](assets/img/architecture.svg)
-  <figcaption>
-    Keystone is built on a Python (Django) backend with a Javascript (Angular) front end.
-    Asynchronous operations are handled by Celery while communication with HPC clusters is facilitated by Slurm.
-    Arrows are used to should the direction of network communication.
-  </figcaption>
-</figure>
-
-
-
 Asynchronous operations are handled in the backend using the Celery Task Manager.
 Although Celery provides support for several cache frameworks, Keystone requires Redis as it's caching layer.
+This decision is motivated by the maturity, performance, and broad user support of the Redis platform.
 
-Reverse proxies are used to serve static content and to load balance incoming requests to the frontend/backend layers.
+Application data is persisted across a Postgres database and a file storage server.
+Unofficial support is provided for SQLite databases, but is only intended for use in demonstrations and development.
+The choice of file server is arbitrary so long as it is mountable in the runtime environment.
 
-## Monitoring
+<figure markdown="span">
+  ![architecture.svg](assets/img/architecture.svg)
+</figure>
+
+## Monitoring Workflow
 
 The Keystone API exposes metrics for itself and its supporting services using Prometheus.
 These metrics are designed to focus on application behavior and performance, not on the health of underlying infrastructure.
