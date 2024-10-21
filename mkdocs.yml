@@ -64,8 +64,8 @@ extra_javascript:
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 nav:
   - Keystone:
-    - index.md
-    - architecture.md
+    - Introduction: index.md
+    - Architecture: architecture.md
   - Keystone-API: '!include docs/submodules/keystone-api/mkdocs.yml'
   - Keystone-Web: '!include docs/submodules/keystone-web/mkdocs.yml'
   - API Client: '!include docs/submodules/keystone-python-client/mkdocs.yml'
