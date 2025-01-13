@@ -1,14 +1,14 @@
 # Architecture
 
-Keystone is built on a modular architecture designed to fit multiple deployment scenarios. 
-In high-availability environments, the architecture allows individual components to scale dynamically in response to system outages and client demand. 
-It also allows application components to be bundled for deployment on smaller, stand-alone systems.
-This flexibility provides a robust solution adaptable to a wide range of operational contexts.
+Keystone employs a modular monolithic architecture, grouping common services into distinct modules based on a common responsibility. 
+This structure allows services within a module to share application resource while maintaining clear boundaries for scalability and maintenance.
+Modules or services can be independently scaled to meet user demand, ensuring optimal performance under varying workloads.
 
 ## Deployment Stack
 
 Keystone employs a traditional, three-tiered web architecture comprising a frontend, backend, and persistence layer.
-End user access is typically restricted to the front end layer, but the API is designed with security in mind and can be deployed for broader access.
+End user access is typically restricted to the front end layer, but the API can be deployed for broader access if necessary.
+In all cases, incoming user traffic is proxied via Nginx which provides internal routing and load balancing.
 
 <figure markdown="span">
   ![architecture.svg](assets/img/architecture.svg)
@@ -34,5 +34,5 @@ Custom Metrics are not provided for the frontend, but can be retrieved directly 
 </figure>
 
 Keystone's metrics provide insight into application behavior and performance.
-They do not include information concerning underlying infrastructure (e.g., the host machine(s)).
-Deploying additional monitoring for supporting infrastructure is up to the deployment administrator.
+They do not include information concerning underlying infrastructure (e.g., resource usage on the host machine(s)).
+Deploying additional monitoring for supporting infrastructure is left to the relevant system administrator.
