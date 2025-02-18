@@ -46,16 +46,3 @@ jobs:
           git add .
           git commit --allow-empty -m "Updates ${{ env.repo_name }} to ${{ env.tag }}"
           git push
-
-  build:
-    name: Build
-    needs: update_modules
-    uses: ./.github/workflows/Build.yml
-    secrets: inherit
-    with:
-      tag: "main"  # Manually specify main so build uses the commit from the previous step
-
-  publish:
-    name: Publish
-    needs: build
-    uses: ./.github/workflows/Publish.yml
