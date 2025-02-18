@@ -35,4 +35,4 @@ Custom Metrics are not provided for the frontend, but can be retrieved directly 
 
 Keystone's metrics provide insight into application behavior and performance.
 They do not include information concerning underlying infrastructure (e.g., resource usage on the host machine(s)).
-Deploying additional monitoring for supporting infrastructure is left to the relevant system administrator.
+Deploying additional monitoring for supporting infrastructure is left to the system administrator.
