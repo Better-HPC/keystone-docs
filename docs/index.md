@@ -1,6 +1,6 @@
 # Keystone Technical Documentation
 
-Keystone is a web-based resource allocation system for high-performance computing (HPC) systems.
+Keystone is a web-based resource allocation system for high-performance computing (HPC) clusters.
 It provides a centralized interface for managing HPC allocations across large user groups and diverse computational environments.
 
 Application features include:
