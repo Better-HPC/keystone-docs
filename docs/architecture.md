@@ -1,13 +1,7 @@
 # Architecture
 
-Keystone employs a modular monolithic architecture, grouping common services into distinct modules based on a common responsibility. 
-This structure allows services within a module to share application resource while maintaining clear boundaries for scalability and maintenance.
-Modules or services can be independently scaled to meet user demand, ensuring optimal performance under varying workloads.
-
-## Deployment Stack
-
-Keystone employs a traditional, three-tiered web architecture comprising a frontend, backend, and persistence layer.
-End user access is typically restricted to the front end layer, but the API can be deployed for broader access if necessary.
+Keystone employs a traditional, three-tiered architecture comprising a frontend, backend, and persistence layer.
+End user access is typically restricted to the front end layer, but the API can be deployed for access to custom client applications as necessary.
 In all cases, incoming user traffic is proxied via Nginx which provides internal routing and load balancing.
 
 <figure markdown="span">
