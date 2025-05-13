@@ -19,7 +19,7 @@ jobs:
           [[ "${{ env.tag }}" ]] || { echo "Input \"tag\" cannot be empty" ; exit 1; }
 
       - name: Create authentication token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
