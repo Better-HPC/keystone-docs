@@ -26,7 +26,7 @@ The choice of file server is arbitrary so long as it is mountable in the runtime
 ## Application Monitoring
 
 The Keystone API exposes metrics for itself and its supporting services using Prometheus.
-Custom Metrics are not provided for the frontend, but can be retrieved directly from Nginx.
+Administrators may optionally wish to extend these metrics by deploying dedicated exporters for each underlying service.
 
 <figure markdown="span">
   ![monitoring.svg](assets/img/monitoring.svg)
