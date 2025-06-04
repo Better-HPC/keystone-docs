@@ -1,32 +1,39 @@
 # Architecture
 
-Keystone employs a traditional, three-tiered architecture comprising a frontend, backend, and persistence layer.
-End user access is typically restricted to the front end layer, but the API can be deployed for access to custom client applications as necessary.
-In all cases, incoming user traffic is proxied via Nginx which provides internal routing and load balancing.
+Keystone leverages a modular, service-oriented architecture tailored to meet the operational demands of HPC environments.
+The diagram below demonstrates the flow of requests between individual components, grouped according to their general responsibilities.
+The following sections detail each layer of the Keystone architecture, emphasizing key design decisions and the specific roles of each module.
 
 <figure markdown="span">
   ![architecture.svg](assets/img/architecture.svg)
-  <figcaption>Component level architecture for the combine Keystone application stack.</figcaption>
+  <figcaption>
+    Component level architecture for the Keystone application.
+    Arrows are used to demonstrate the direction of initiated requests between components.
+    External enterprise components such as LDAP and SMTP servers are omitted from the diagram.
+  </figcaption>
 </figure>
 
-Asynchronous operations are handled in the backend using the Celery Task Manager.
-Although Celery provides support for several cache frameworks, Keystone requires Redis as it's caching layer.
-This decision is motivated by the maturity, performance, and broad user support of the Redis platform.
+## Web Frontend
 
-Application data is persisted across a Postgres database and a file storage server.
-Unofficial support is provided for SQLite databases, but is only intended for use in demonstrations and development.
-The choice of file server is arbitrary so long as it is mountable in the runtime environment.
+The application frontend is a TypeScript application built with **Angular** and served behind an **NGINX** proxy.
 
-## Application Monitoring
+## API Backend
 
-The Keystone API exposes metrics for itself and its supporting services using Prometheus.
-Administrators may optionally wish to extend these metrics by deploying dedicated exporters for each underlying service.
+The Keystone API is a Python application built using the **Django REST Framework (DRF)**.
+It encapsulates core business logic, enforces data validation, manages user authentication/permissions.
+The API is designed to , and provides
+an array of administrative utilities.
 
-<figure markdown="span">
-  ![monitoring.svg](assets/img/monitoring.svg)
-  <figcaption>Data flow for Keystone metrics aggregation and monitoring.</figcaption>
-</figure>
+Asynchronous operations are handled using the **Celery** task manager, backed by a **Redis** cache.
+Although Celery supports multiple message brokers, Keystone requires Redis due to its maturity, performance, and
+widespread adoption in production environments.
 
-Keystone's metrics provide insight into application behavior and performance.
-They do not include information concerning underlying infrastructure (e.g., resource usage on the host machine(s)).
-Deploying additional monitoring for supporting infrastructure is left to the system administrator.
+## Persistence
+
+Keystone uses dedicated storage backends to persist different types of application data, including:
+
+- A **PostgreSQL** relational database for structured data (e.g., users, teams, allocations)
+- File storage for static assets and user-uploaded data
+
+The Redis cache is not considered part of the persistence layer, as it is used exclusively by Celery for inter-process
+communication and is not accessed directly by application logic.
