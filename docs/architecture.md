@@ -6,7 +6,11 @@ In all cases, incoming user traffic is proxied via Nginx which provides internal
 
 <figure markdown="span">
   ![architecture.svg](assets/img/architecture.svg)
-  <figcaption>Component level architecture for the combine Keystone application stack.</figcaption>
+  <figcaption>
+    Component level architecture for the Keystone application.
+    Arrows are used to demonstrate the direction of initiated requests between components.
+    External enterprise components (e.g., LDAP, SMTP) are omitted from the diagram. 
+  </figcaption>
 </figure>
 
 Asynchronous operations are handled in the backend using the Celery Task Manager.
@@ -16,17 +20,3 @@ This decision is motivated by the maturity, performance, and broad user support 
 Application data is persisted across a Postgres database and a file storage server.
 Unofficial support is provided for SQLite databases, but is only intended for use in demonstrations and development.
 The choice of file server is arbitrary so long as it is mountable in the runtime environment.
-
-## Application Monitoring
-
-The Keystone API exposes metrics for itself and its supporting services using Prometheus.
-Administrators may optionally wish to extend these metrics by deploying dedicated exporters for each underlying service.
-
-<figure markdown="span">
-  ![monitoring.svg](assets/img/monitoring.svg)
-  <figcaption>Data flow for Keystone metrics aggregation and monitoring.</figcaption>
-</figure>
-
-Keystone's metrics provide insight into application behavior and performance.
-They do not include information concerning underlying infrastructure (e.g., resource usage on the host machine(s)).
-Deploying additional monitoring for supporting infrastructure is left to the system administrator.
