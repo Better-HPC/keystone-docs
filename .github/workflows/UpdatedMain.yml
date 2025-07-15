@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: updated-main
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build
