@@ -4,6 +4,10 @@ on:
   repository_dispatch:
     types: [ update-submodules ]
 
+concurrency:
+  group: gitops-trigger
+  cancel-in-progress: false
+
 env:
   repo_name: ${{ github.event.client_payload.repo_name }}
   tag: ${{ github.event.client_payload.tag }}
