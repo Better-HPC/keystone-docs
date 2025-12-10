@@ -67,7 +67,7 @@ nav:
   - Keystone:
     - Introduction: index.md
     - Architecture: architecture.md
-  - Keystone-API: '!include docs/submodules/keystone-api/mkdocs.yml'
-  - Keystone-Web: '!include docs/submodules/keystone-web/mkdocs.yml'
+  - Backend API: '!include docs/submodules/keystone-api/mkdocs.yml'
+  - Web Interface: '!include docs/submodules/keystone-web/mkdocs.yml'
   - API Client: '!include docs/submodules/keystone-python-client/mkdocs.yml'
 copyright: Copyright &copy; 2025 Better HPC
