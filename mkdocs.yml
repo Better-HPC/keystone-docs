@@ -74,4 +74,4 @@ nav:
   - Backend API: '!include docs/submodules/keystone-api/mkdocs.yml'
   - Web Interface: '!include docs/submodules/keystone-web/mkdocs.yml'
   - API Client: '!include docs/submodules/keystone-python-client/mkdocs.yml'
-copyright: Copyright &copy; 2025 Better HPC
+copyright: Copyright &copy; 2026 Better HPC
