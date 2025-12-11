@@ -1,4 +1,7 @@
-site_name: Keystone
+site_name: "Keystone Documentation"
+site_author: Better HPC LLC
+site_description: A unified HPC management platform.
+
 theme:
   name: material
   font:
@@ -15,6 +18,7 @@ theme:
     - content.tabs.link
 extra_css:
   - assets/css/full_width_tables.css
+  - assets/css/hide_logo.css
 plugins:
   - include-markdown
   - mkdocstrings:
