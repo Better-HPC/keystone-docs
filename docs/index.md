@@ -1,7 +1,11 @@
 # Keystone Documentation
 
-Keystone is a web platform that simplifies how organizations manage access to high-performance computing (HPC) resources.
-It provides a single, easy-to-use interface for administering resource allocations, tracking usage, and overseeing activity across one or more HPC clusters.
+Keystone is an integrated management platform designed to simplify how organizations manage HPC systems.
+It provides administrators with a unified interface for monitoring resource consumption, managing user access and
+permissions, and automating routine workflows across clusters.
+For HPC users, Keystone delivers streamlined self-service capabilities that reduce dependence on administrative
+support while maintaining governance and security.
+The platform ensures consistent, efficient, and transparent management of HPC resources at scale.
 
-This documentation is designed for end users and administrators who work with Keystone in day-to-day operations.
-It explains how to navigate the platform, manage allocations, and understand the information presented throughout the system.
+This documentation is primarily intended for administrators responsible for managing HPC resources through Keystone.
+It provides detailed guidance on application deployment, configuration, and maintenance in production settings.
