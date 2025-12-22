@@ -7,3 +7,6 @@
 [submodule "docs/submodules/keystone-python-client"]
 	path = docs/submodules/keystone-python-client
 	url = https://github.com/better-hpc/keystone-python-client
+[submodule "docs/submodules/cluster-agent"]
+	path = docs/submodules/cluster-agent
+	url = https://github.com/Better-HPC/cluster-agent/
