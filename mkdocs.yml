@@ -71,7 +71,7 @@ nav:
   - Keystone:
     - Introduction: index.md
     - architecture.md
-  - Cluster Agent: '!include docs/submodules/cluster-agent/mkdocs.yml'
+  - Cluster Agent: '!include docs/submodules/keystone-agent/mkdocs.yml'
   - Backend API: '!include docs/submodules/keystone-api/mkdocs.yml'
   - Web Interface: '!include docs/submodules/keystone-web/mkdocs.yml'
   - API Client: '!include docs/submodules/keystone-python-client/mkdocs.yml'
