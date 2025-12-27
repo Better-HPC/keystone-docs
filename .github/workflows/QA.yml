@@ -15,8 +15,6 @@ jobs:
           name: github-pages
 
       - name: Extract pages artifact
-        with:
-          path: site
         run: |
           ls -al .
           tar -xf artifact.tar -C site
