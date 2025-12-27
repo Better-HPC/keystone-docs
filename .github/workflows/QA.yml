@@ -25,6 +25,7 @@ jobs:
 
       - name: Serve site
         run: |
+          ls -al
           npx serve site -l 8000 &
           echo "WEBSITE_URL=http://localhost:8000" >> $GITHUB_ENV
           for i in {1..10}; do
