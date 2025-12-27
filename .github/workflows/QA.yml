@@ -1,0 +1,41 @@
+name: 🤖 QA
+
+on:
+  workflow_call:
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    name: Check Links
+
+    steps:
+      - name: Fetch pages artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: github-pages
+          path: /tmp
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install broken-link-checker
+        run: npm install -g broken-link-checker
+
+      - name: Serve site
+        run: |
+          npx serve site -l 8000 &
+          echo "WEBSITE_URL=http://localhost:8000" >> $GITHUB_ENV
+
+      - name: Wait for site to be ready
+        run: |
+          for i in {1..10}; do
+            curl -sf "$WEBSITE_URL" && exit 0
+            sleep 2
+          done
+          exit 1
+
+      - name: Check for broken links
+        run: |
+          npx broken-link-checker "$WEBSITE_URL" --ordered --recursive
