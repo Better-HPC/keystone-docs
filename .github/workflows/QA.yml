@@ -17,8 +17,9 @@ jobs:
       - name: Extract pages artifact
         run: |
           ls -al .
-          tar -xf artifact.tar -C site
-          ls -al site
+          tar -xf artifact.tar
+          ls -al .
+          rm -f artifact.tar
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
