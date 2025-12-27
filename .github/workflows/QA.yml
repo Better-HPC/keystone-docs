@@ -13,20 +13,21 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: github-pages
-          path: site
 
       - name: Extract pages artifact
+        with:
+          path: site
         run: |
-          tar -xf site/artifact.tar
-          rm -r site
-          ls -al
+          ls -al .
+          tar -xf artifact.tar -C site
+          ls -al site
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Install broken-link-checker
+      - name: Install dependencies
         run: npm install -g serve broken-link-checker
 
       - name: Serve site
