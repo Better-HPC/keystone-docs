@@ -13,7 +13,7 @@ jobs:
         uses: actions/download-artifact@v6
         with:
           name: github-pages
-          path: /tmp
+          path: site
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
