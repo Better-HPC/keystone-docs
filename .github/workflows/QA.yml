@@ -21,7 +21,7 @@ jobs:
           node-version: '20'
 
       - name: Install broken-link-checker
-        run: npm install -g broken-link-checker
+        run: npm install -g serve broken-link-checker
 
       - name: Serve site
         run: |
@@ -33,6 +33,7 @@ jobs:
           for i in {1..10}; do
             curl -sf "$WEBSITE_URL" && exit 0
             sleep 2
+          
           done
           exit 1
 
