@@ -15,6 +15,12 @@ jobs:
           name: github-pages
           path: site
 
+      - name: Extract pages artifact
+        run: |
+          tar -xf site/artifact.tar
+          rm -r site
+          ls -al
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
