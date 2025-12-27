@@ -1,17 +1,21 @@
-The Keystone platform is designed around a centralized REST API that interfaces with HPC clusters using a lightweight
-agent application.
-The central API handles core application logic and user permissions, while the
-cluster agents provide a hardware-agnostic interface between Keystone and the local HPC scheduler. This
-architecture enables a single Keystone deployment to efficiently manage multiple clusters across many heterogeneous
-environments.
+# Architecture
 
-The following sections detail the Keystone architecture and its underlying services.
-Application components are organized into distinct layers, each defined by a specific responsibility.
+Keystone’s core architecture is organized into three layers: user presentation, application logic, and data storage.
+The presentation layer provides general user-facing interfaces, including a web UI and Python SDK.
+The application layer enforces business logic and coordinates HPC resource allocations across clusters. 
+The storage layer provides persistence for application data and user-submitted content.
+
+Integration with HPC hardware is handled by a lightweight agent application, which provides a scheduler-agnostic
+interface for managing the underlying cluster(s). This enables Keystone to efficiently manage HPC resources across
+diverse computational environments.
+
+The diagram and sections below provide a detailed overview of the components in a typical Keystone deployment.
+Traditional enterprise services (e.g., LDAP, SSO, SMTP) are omitted here for simplicity.
 
 <figure markdown="span">
   ![architecture.svg](assets/media/architecture.svg)
   <figcaption>
-    Component level architecture for the Keystone platform.
+    A component level architecture for the Keystone platform.
     External enterprise services (e.g., LDAP, SMTP) are omitted for simplicity.
   </figcaption>
 </figure>
@@ -31,16 +35,16 @@ Administrators are welcome to build and deploy additional interfaces using the o
 ## Application Layer
 
 The application layer encapsulates Keystone’s core business logic.
-This layer serves as the application control plane and is responsible for coordinating user requests and processing
+This layer serves as the primary control plane and is responsible for coordinating user requests and processing
 asynchronous background tasks.
 
 - **Keystone API**  
   A REST API responsible for the centralized management of distributed HPC resources.
 
-- **Task Scheduler**  
-  A periodic task scheduler responsible for coordinating asynchronous background jobs.
+- **Celery Task Scheduler**  
+  A periodic job scheduler responsible for coordinating asynchronous application tasks.
 
-- **Background Workers**  
+- **Celery Workers**  
   Worker processes responsible for executing long-running background tasks.
 
 ## Data Persistence
@@ -51,14 +55,13 @@ Keystone persists application data across multiple specialized storage systems.
   Stores transactional and relational application data.
 
 - **Redis Cache**  
-  Provides in-memory caching and message brokering to support asynchronous task execution.
+  Provides caching and message brokering to support asynchronous task execution.
 
 - **File Storage**  
   Manages binary and unstructured data such as file attachments and user uploads.
 
 ## HPC Resources
 
-HPC resources are owned and operated by the customer and remain outside of Keystone’s direct administrative domain.
-Integration is achieved using an agent application installed on each cluster. This agent provides a compatibility
-layer between Keystone and the underlying HPC scheduler, abstracting scheduler-specific details and enabling Keystone
-to enforce allocation and policy constraints.
+Integration with HPC resources is achieved using an agent application installed on each cluster.
+The agent provides a compatibility layer between Keystone and the underlying HPC scheduler.
+It abstracts scheduler-specific details and enables Keystone to enforce allocation and policy constraints.
