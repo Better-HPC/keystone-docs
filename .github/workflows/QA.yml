@@ -15,11 +15,7 @@ jobs:
           name: github-pages
 
       - name: Extract pages artifact
-        run: |
-          ls -al .
-          tar -xf artifact.tar
-          ls -al .
-          rm -f artifact.tar
+        run: tar -xf artifact.tar && rm -f artifact.tar
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -30,17 +26,7 @@ jobs:
         run: npm install -g serve broken-link-checker
 
       - name: Serve site
-        run: |
-          ls -al site
-          npx serve site -l 8000 &
-          echo "WEBSITE_URL=http://localhost:8000" >> $GITHUB_ENV
-          for i in {1..10}; do
-            curl -sf "$WEBSITE_URL" && exit 0
-            sleep 2
-          
-          done
-          exit 1
-
+        run: npx serve site -l 8000 &
 
       - name: Wait for site to be ready
         run: |
@@ -52,5 +38,4 @@ jobs:
           exit 1
 
       - name: Check for broken links
-        run: |
-          npx broken-link-checker "$WEBSITE_URL" --ordered --recursive
+        run: npx broken-link-checker "$WEBSITE_URL" --ordered --recursive
