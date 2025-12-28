@@ -26,7 +26,16 @@ jobs:
         run: npm install -g serve broken-link-checker
 
       - name: Serve site
-        run: npx serve site -l 8000 &
+        run: |
+          npx serve site -l 8000 &
+          echo "WEBSITE_URL=http://localhost:8000" >> $GITHUB_ENV
+          for i in {1..10}; do
+            curl -sf "$WEBSITE_URL" && exit 0
+            sleep 2
+          
+          done
+          exit 1
+
 
       - name: Wait for site to be ready
         run: |
