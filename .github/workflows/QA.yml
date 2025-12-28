@@ -27,7 +27,7 @@ jobs:
 
       - name: Serve site
         run: |
-          npx serve site -l 8000 &
+          npx serve -l 8000 &
           for i in {1..10}; do
             curl -sf "http://localhost:8000" && exit 0
             sleep 2
