@@ -33,41 +33,6 @@ mkdocs serve
 
 ## Working in CI
 
-New documentation is automatically built and published whenever# Keystone Documentation
-
-This repository acts as a GitOps staging ground for publishing the Keystone documentation.
-Project level documentation is stored in this repository and combined with component level documentation
-(e.g., Keystone-API, Keystone-Web) via Git submodules.
-
-## Working Locally
-
-This repository leverages submodules.
-To clone the repository with submodules included:
-
-```shell
-git clone [URL] --recurse-submodules
-```
-
-Submodules can also be pulled and updated manually:
-
-```shell
-git submodule update --init
-```
-
-After ensuring the submodules are up-to-date, make sure to (re)install the project dependencies.
-
-```shell
-pip install -r requirements.txt
-```
-
-Documentation is compiled and served locally using the `mkdocs` utility.
-
-```shell
-mkdocs serve
-```
-
-## Working in CI
-
 New documentation is automatically published any time a commit is made to the `main` branch of this repository.
 A custom GitHub action is also used to rebuild the documentation when changes are made to the upstream submodules.
 
