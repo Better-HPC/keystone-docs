@@ -9,6 +9,11 @@ jobs:
     uses: ./.github/workflows/Build.yml
     secrets: inherit
 
+  qa:
+    name: QA
+    needs: [ build ]
+    uses: ./.github/workflows/QA.yml
+
   report-pr-status:
     name: Report PR Status
     runs-on: ubuntu-latest

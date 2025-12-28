@@ -15,7 +15,12 @@ jobs:
     uses: ./.github/workflows/Build.yml
     secrets: inherit
 
+  qa:
+    name: QA
+    needs: [ build ]
+    uses: ./.github/workflows/QA.yml
+
   publish:
     name: Publish
-    needs: build
+    needs: [ build ]
     uses: ./.github/workflows/Publish.yml
