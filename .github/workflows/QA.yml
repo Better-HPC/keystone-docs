@@ -39,6 +39,6 @@ jobs:
 
       - name: Check for broken links
         run: |
-          npx broken-link-checker "http://localhost:8000" --ordered --recursive --verbose \
+          npx broken-link-checker "http://localhost:8000" --ordered --recursive \
             --exclude "plugins.js" \
             --exclude "openapi.yml"
