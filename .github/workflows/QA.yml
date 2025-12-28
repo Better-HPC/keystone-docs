@@ -26,15 +26,7 @@ jobs:
         run: npm install -g serve broken-link-checker
 
       - name: Serve site
-        run: |
-          npx serve -l 8000 &
-          for i in {1..10}; do
-            curl -sf "http://localhost:8000" && exit 0
-            sleep 2
-          
-          done
-          exit 1
-
+        run: npx serve -l 8000 &
 
       - name: Wait for site to be ready
         run: |
@@ -46,4 +38,4 @@ jobs:
           exit 1
 
       - name: Check for broken links
-        run: npx broken-link-checker "$WEBSITE_URL" --ordered --recursive
+        run: npx broken-link-checker "http://localhost:8000" --ordered --recursive
