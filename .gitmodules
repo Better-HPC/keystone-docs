@@ -10,6 +10,3 @@
 [submodule "docs/submodules/keystone-agent"]
 	path = docs/submodules/keystone-agent
 	url = https://github.com/Better-HPC/keystone-agent/
-[submodule "docs/submodules/keystone-exporter"]
-	path = docs/submodules/keystone-exporter
-	url = https://github.com/Better-HPC/Keystone-Exporter
