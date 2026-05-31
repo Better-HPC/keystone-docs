@@ -1,4 +1,4 @@
-mkdocs-include-markdown-plugin == 7.2.0
-mkdocs-material == 9.6.21
+mkdocs-include-markdown-plugin == 7.3.0
+mkdocs-material == 9.7.6
 mkdocs-monorepo-plugin == 1.1.2
 mkdocstrings[python]== 0.30.1
