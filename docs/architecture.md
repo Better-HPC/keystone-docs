@@ -2,7 +2,7 @@
 
 Keystone’s core architecture is organized into three layers: user presentation, application logic, and data storage.
 The presentation layer provides general user-facing interfaces, including a web UI and Python SDK.
-The application layer enforces business logic and coordinates HPC resource allocations across clusters. 
+The application layer enforces business logic and coordinates HPC resource allocations across clusters.
 The storage layer provides persistence for application data and user-submitted content.
 
 Integration with HPC hardware is handled by a lightweight agent application, which provides a scheduler-agnostic
@@ -47,7 +47,7 @@ asynchronous background tasks.
 - **Celery Workers**  
   Worker processes responsible for executing long-running background tasks.
 
-## Data Persistence
+## Persistence Layer
 
 Keystone persists application data across multiple specialized storage systems.
 
@@ -60,8 +60,12 @@ Keystone persists application data across multiple specialized storage systems.
 - **File Storage**  
   Manages binary and unstructured data such as file attachments and user uploads.
 
-## HPC Resources
+## HPC Interfaces
 
-Integration with HPC resources is achieved using an agent application installed on each cluster.
-The agent provides a compatibility layer between Keystone and the underlying HPC scheduler.
-It abstracts scheduler-specific details and enables Keystone to enforce allocation and policy constraints.
+HPC resources are managed through interface applications installed on each cluster.
+
+- **Cluster Agent**  
+  A scheduler-agnostic interface for managing cluster resources and executing common Keystone tasks on the cluster.
+
+- **Keystone Exporter**  
+  A metrics exporter installed on HPC compute nodes to track resource consumption at the node and job level.
