@@ -17,7 +17,7 @@ jobs:
         uses: actions/create-github-app-token@v2
         id: app-token
         with:
-          app-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
+          client-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
           private-key: ${{ secrets.KEYSTONE_GITOPS_PK }}
           owner: ${{ github.repository_owner }}
           
