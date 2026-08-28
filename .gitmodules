@@ -6,7 +6,7 @@
 	url = https://github.com/Better-HPC/keystone-demo/
 [submodule "docs/assets/submodules/keystone-web"]
 	path = docs/assets/submodules/keystone-web
-	url = https://github.com/Better-HPC/keystone-web
+	url = https://github.com/Better-HPC/keystone-web/
 [submodule "docs/assets/submodules/keystone-python-client"]
 	path = docs/assets/submodules/keystone-python-client
-	url = https://github.com/Better-HPC/keystone-python-client
+	url = https://github.com/Better-HPC/keystone-python-client/
