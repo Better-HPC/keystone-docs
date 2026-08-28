@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="description" content="Keystone REST API reference"/>
+  <title>Keystone API Reference</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css"/>
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js" crossorigin></script>
+<script type="module">
+    import {createTagSorter, disableAuthorizePlugin} from '../../assets/javascripts/swagger.js';
+
+    window.onload = () => {
+
+        // Defines the display order for Swagger UI's tag groups.
+        // Tags are matched to the following list of prefixes.
+        // Any tag not matching a prefix here will be placed after these, alphabetically.
+        const tagOrderPrefixes = [
+            "Version",
+            "Authentication",
+            "Users - Accounts",
+            "Users - Teams",
+            "Users - Team Membership",
+            "Users",
+            "Allocations - Clusters",
+            "Allocations - Requests",
+            "Allocations - Request Attachments",
+            "Allocations - Request Comments",
+            "Allocations - Reviews",
+            "Allocations - Allocated Resources",
+            "Allocations - User Jobs",
+            "Research",
+            "Notifications",
+            "Admin - Application Version",
+            "Admin - Application Health",
+            "Admin - Application Logging",
+            "Admin",
+        ];
+
+        window.ui = SwaggerUIBundle({
+            url: 'openapi.yml',
+            dom_id: '#swagger-ui',
+            supportedSubmitMethods: [],
+            plugins: [disableAuthorizePlugin],
+            tagsSorter: createTagSorter(tagOrderPrefixes)
+        });
+    };
+</script>
+</body>
+</html>

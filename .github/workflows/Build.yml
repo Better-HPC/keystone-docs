@@ -14,10 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Create authentication token
-        uses: actions/create-github-app-token@v3
+        uses: actions/create-github-app-token@v2
         id: app-token
         with:
-          client-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
+          app-id: ${{ secrets.KEYSTONE_GITOPS_ID }}
           private-key: ${{ secrets.KEYSTONE_GITOPS_PK }}
           owner: ${{ github.repository_owner }}
           
@@ -38,7 +38,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build HTML
-        run: mkdocs build
+        run: zensical build --strict --clean
 
       - name: Upload docs to artifact storage
         uses: actions/upload-pages-artifact@v3

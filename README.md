@@ -1,8 +1,6 @@
 # Keystone Documentation
 
-This repository acts as a GitOps staging ground for publishing the Keystone documentation.
-Project level documentation is stored in this repository and combined with component level documentation
-(e.g., Keystone-API, Keystone-Web) via Git submodules.
+This repository contains customer facing documentation for the Keystone project.
 
 ## Working Locally
 
@@ -25,10 +23,10 @@ After ensuring the submodules are up-to-date, make sure to (re)install the proje
 pip install -r requirements.txt
 ```
 
-Documentation is compiled and served locally using the `mkdocs` utility.
+Documentation is compiled and served locally using the `zensical` utility.
 
 ```shell
-mkdocs serve
+zensical serve
 ```
 
 ## Working in CI

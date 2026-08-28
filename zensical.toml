@@ -1,0 +1,129 @@
+[project]
+site_name = "Keystone Documentation"
+site_url = "https://keystone.bhpc.dev/"
+site_author = "Better HPC"
+site_description = "Documentation for the Keystone HPC management platform."
+
+copyright = "Copyright &copy; - Better HPC"
+
+extra_css = ["assets/stylesheets/extra.css"]
+extra_javascript = [
+    "https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js",
+]
+
+nav = [
+    { "Introduction" = "index.md" },
+    { "Architecture" = "architecture.md" },
+    { "Deployment" = [
+        { "Installation" = [
+            { "Deployment Options" = "deploy/install/options.md" },
+            { "Docker Standalone" = "deploy/install/docker.md" },
+            { "Docker Compose" = "deploy/install/compose.md" },
+            { "Systemd (Deprecated)" = "deploy/install/systemd.md" },
+        ] },
+        { "Configuration" = [
+            { "Application Settings" = "deploy/configure/api_settings.md" },
+            { "Notification Templates" = "deploy/configure/notifications.md" },
+        ] },
+        { "Operations" = [
+            { "Monitoring & Logging" = "deploy/operate/monitoring.md" },
+            { "Prometheus and Grafana" = "deploy/operate/prom_and_grafana.md" },
+            { "Upgrades & Maintenance" = "deploy/operate/upgrades.md" },
+            { "Background Tasks" = "deploy/operate/tasks.md" },
+        ] },
+    ] },
+    { "Integration" = [
+        { "HPC Resources" = [
+            { "Overview" = "integrate/provision/overview.md" },
+            { "Slurm" = "integrate/provision/slurm.md" },
+        ] },
+        { "REST API" = [
+            { "API Specification" = "integrate/api/openapi.md" },
+            { "Authentication" = "integrate/api/authentication.md" },
+            { "Access Control" = "integrate/api/permissions.md" },
+            { "Filtering Queries" = "integrate/api/filtering.md" },
+            { "Batch Jobs" = "integrate/api/batch-jobs.md" },
+        ] },
+        { "Python SDK" = [
+            { "Getting Started" = "integrate/sdk/getting-started.md" },
+            { "Client Logging" = "integrate/sdk/logging.md" },
+        ] },
+    ] },
+]
+
+[project.extra]
+generator = false
+
+[project.plugins.offline]
+enabled = false
+
+[project.theme]
+custom_dir = "overrides"
+logo = "assets/images/logo.svg"
+features = [
+    "content.action.edit",
+    "content.action.view",
+    "content.code.annotate",
+    "content.code.copy",
+    "navigation.indexes",
+    "navigation.instant",
+    "navigation.instant.progress",
+    "navigation.sections",
+    "navigation.top",
+    "navigation.tracking",
+    "toc.follow",
+]
+
+# Palette toggle for automatic mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+# Palette toggle for light mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+# Palette toggle for dark mode
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+# --- Markdown extensions -----------------------------------------------------
+# Enable the features the documentation content relies on.
+
+[project.markdown_extensions.admonition]
+[project.markdown_extensions.attr_list]
+[project.markdown_extensions.md_in_html]
+[project.markdown_extensions.tables]
+[project.markdown_extensions.toc]
+permalink = true
+
+[project.markdown_extensions.pymdownx.details]
+
+[project.markdown_extensions.pymdownx.superfences]
+
+[project.markdown_extensions.pymdownx.highlight]
+pygments_lang_class = true
+anchor_linenums = true
+line_spans = "__span"
+
+[project.markdown_extensions.pymdownx.inlinehilite]
+
+[project.markdown_extensions.pymdownx.tabbed]
+alternate_style = true
+
+[project.markdown_extensions.pymdownx.arithmatex]
+generic = true
+
+[project.markdown_extensions.pymdownx.blocks.caption]
+
+[project.markdown_extensions.pymdownx.snippets]
+base_path = ["docs/assets"]
+check_paths = true
+dedent_subsections = true

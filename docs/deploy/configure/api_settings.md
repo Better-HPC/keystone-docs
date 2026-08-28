@@ -1,0 +1,192 @@
+# Application Settings
+
+The API server reads application settings from environment variables
+defined in the underlying runtime environment (i.e., inside the
+deployed API container). Individual settings are listed below by 
+category and use case.
+
+## Security Settings
+
+Security settings are used to configure application networking and request 
+signing. These values should be chosen with care. Improperly configured 
+settings can introduce dangerous vulnerabilities and may damage your 
+production deployment.
+
+### Core Security
+
+The Keystone API requires a random secret key to sign and verify requests.
+Secret keys are conventionally 50 characters long and can be generated using 
+common utilities like `openssl` (e.g., `openssl rand -base64 48 | cut -c1-50`).
+Administrators should always configure their own custom key and persist the value
+across application instances and restarts.
+
+
+| Setting Name        | Default Value      | Description                                      |
+|---------------------|--------------------|--------------------------------------------------|
+| `SECURE_SECRET_KEY` | Randomly generated | Key value used to enforce cryptographic signing. |
+
+### SSL/TLS
+
+Enabling TLS is strongly recommended in production.
+Enabling HSTS is also recommended, but only when TLS is already fully configured.
+Administrators are cautioned to consider the potentially irreversible side effects of HSTS before enabling it.
+
+Alternatively, administrators can implement TLS/HSTS support using a reverse proxy.
+When using a reverse proxy for TLS, the settings below can be left at their default values.
+
+| Setting Name             | Default Value  | Description                                       |
+|--------------------------|----------------|---------------------------------------------------|
+| `SECURE_SSL_REDIRECT`    | `False`        | Automatically redirect all HTTP traffic to HTTPS. |
+| `SECURE_HSTS_SECONDS`    | `0` (Disabled) | HSTS cache duration in seconds.                   |
+| `SECURE_HSTS_SUBDOMAINS` | `False`        | Enable HSTS for subdomains.                       |
+| `SECURE_HSTS_PRELOAD`    | `False`        | Enable HSTS preload functionality.                |
+
+### Auth Tokens
+
+The following settings define which domains are allowed to interact with the API server.
+These settings should be made as restrictive as possible, helping prevent unauthorized
+access to the API.
+
+| Setting Name             | Default Value                        <br/><br/> | Description                                                                                      |
+|--------------------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| `SECURE_SSL_TOKENS`      | `False`                                         | Only issue session/CSRF tokens over secure connections.                                          |
+| `SECURE_ALLOWED_HOSTS`   | <code>localhost,127.0.0.1</code>                | Comma-separated list of api host/domain names (**without** protocol).                            |
+| `SECURE_ALLOWED_ORIGINS` | _See default local addresses._                  | Comma-separated list of accepted client origin domains (**with** protocol).                      |
+| `SECURE_SESSION_AGE`     | `1209600` (2 weeks)                             | Number of seconds before session tokens expire.                                                  |
+| `SECURE_TOKEN_DOMAIN`    | None                                            | Domain attribute for session/csrf cookies. Set for cross-subdomain usage (e.g., `.example.com`). |
+
+In most deployments, the settings above should be configured as follows:
+
+- **`SECURE_SSL_TOKENS`**: Enabled when serving over HTTPS and disabled otherwise.
+- **`SECURE_ALLOWED_HOSTS`**: Set to the domain name(s) where the API is hosted <br> (e.g., `api.example.com`).
+- **`SECURE_ALLOWED_ORIGINS`**: Set to the full URL(s) of the frontend web application <br> (e.g., `https://app.example.com`).
+- **`SECURE_TOKEN_DOMAIN`**: Only required when the API and frontend are hosted on different subdomains of the same
+  parent domain. This setting should specify the parent domain with a leading dot (e.g., `.example.com`) to allow
+  token sharing across subdomains.
+
+Default values are defined relative to the following list of _default local addresses_:
+
+- `http://localhost:80`
+- `https://localhost:443`
+- `http://localhost:4200`
+- `http://localhost:8000`
+- `http://127.0.0.1:80`
+- `https://127.0.0.1:443`
+- `http://127.0.0.1:4200`
+- `http://127.0.0.1:8000`
+
+## General Configuration
+
+Keystone uses file storage for various static and user driven content.
+By default, these files are stored in subdirectories of the installed application directory (`<app>`).
+It is generally recommended to customize the storage location using a filesystem with enterprise grade backup and redundancy.
+
+| Setting Name           | Default Value         | Description                                                              |
+|------------------------|-----------------------|--------------------------------------------------------------------------|
+| `CONFIG_STATIC_DIR`    | `<app>/static_files`  | Where to store internal static files required by the application.        |
+| `CONFIG_UPLOAD_DIR`    | `<app>/media`         | Where to store file data uploaded by users.                              |
+| `CONFIG_UPLOAD_SIZE`   | `2621440` (2.5 MB)    | Maximum allowed file upload size in bytes.                               |
+| `CONFIG_UPLOAD_COUNT`  | `15`                  | Maximum files allowed in a single upload request.                        |
+| `CONFIG_TIMEZONE`      | `UTC`                 | The timezone to use when rendering date/time values.                     |
+| `CONFIG_METRICS_PORTS` | `9101` through `9150` | Port numbers used to expose prometheus metrics (e.g., `9101,9102,9103`). |
+
+## Logging
+
+Keystone automatically purges log records according to the policy settings below.
+Application logs are written to disk using a size-based policy that rotates files according to a maximum file size/count.
+Audit, request, and task logs are maintained in the application database and are removed once they exceed a configured
+age (in seconds).
+
+| Setting Name              | Default Value        | Description                                                                                                 |
+|---------------------------|----------------------|-------------------------------------------------------------------------------------------------------------|
+| `LOG_APP_LEVEL`           | `WARNING`            | Only record application logs above this level (accepts `CRITICAL`, `ERROR`, `WARNING`, `INFO`, or `DEBUG`). |
+| `LOG_APP_FILE`            | `<app>/keystone.log` | Destination file path for application logs.                                                                 |
+| `LOG_APP_RETENTION_BYTES` | `10485760` (10 MB)   | Maximum log file size before rotating log files.                                                            |
+| `LOG_APP_RETENTION_FILES` | `5`                  | Maximum rotated log files to keep.                                                                          |
+| `LOG_REQ_RETENTION_SEC`   | `2592000` (30 days)  | How long to store request logs in seconds. Set to 0 to keep all records.                                    |
+| `LOG_AUD_RETENTION_SEC`   | `2592000` (30 days)  | How long to store audit logs in seconds. Set to 0 to keep all records.                                      |
+| `LOG_TSK_RETENTION_SEC`   | `2592000` (30 days)  | How long to store task logs in seconds. Set to 0 to keep all records.                                       |
+
+## API Throttling
+
+API settings are used to throttle incoming API requests against a maximum limit.
+Limits are specified as the maximum number of requests per `day`, `minute`, `hour`, or `second`.
+
+| Setting Name        | Default Value | Description                                          |
+|---------------------|---------------|------------------------------------------------------|
+| `API_THROTTLE_ANON` | `120/min`     | Rate limiting for anonymous (unauthenticated) users. |
+| `API_THROTTLE_USER` | `300/min`     | Rate limiting for authenticated users.               |
+
+## Database Connection
+
+Official support is included for both SQLite and PostgreSQL databases.
+Using SQLite is only intended for use in development or testing.
+The PostgreSQL backend should always be used in production settings.
+
+| Setting Name         | Default Value | Description                                             |
+|----------------------|---------------|---------------------------------------------------------|
+| `DB_POSTGRES_ENABLE` | `False`       | Use PostgreSQL instead of the demo SQLite database.     |
+| `DB_NAME`            | `keystone`    | The name of the application database.                   |
+| `DB_USER`            |               | Username for database authentication (PostgreSQL only). |
+| `DB_PASSWORD`        |               | Password for database authentication (PostgreSQL only). |
+| `DB_HOST`            | `localhost`   | Database host address (PostgreSQL only).                |
+| `DB_PORT`            | `5432`        | Database host port (PostgreSQL only).                   |
+
+## Redis Connection
+
+The following settings define the network location and connection information for the application Redis cache.
+Enabling password authentication is strongly recommended.
+
+| Setting Name     | Default Value | Description                                  |
+|------------------|---------------|----------------------------------------------|
+| `REDIS_HOST`     | `127.0.0.1`   | Host address for the Redis message cache.    |
+| `REDIS_PORT`     | `6379`        | Port number for the Redis message cache.     |
+| `REDIS_DB`       | `0`           | The Redis database number to use.            |
+| `REDIS_PASSWORD` |               | Optionally connect using the given password. |
+
+## Email Notifications
+
+Keystone will default to using a local server when issuing email notifications.
+An alternative SMTP server can be specified using the settings below.
+Securing your production email server with a username/password is strongly recommended.
+
+| Setting Name          | Default Value             | Description                                             |
+|-----------------------|---------------------------|---------------------------------------------------------|
+| `EMAIL_HOST`          | `localhost`               | The host server to use for sending email.               |
+| `EMAIL_HOST_USER`     |                           | Username to use for the SMTP server.                    |
+| `EMAIL_HOST_PASSWORD` |                           | Password to use for the SMTP server.                    |
+| `EMAIL_PORT`          | `25`                      | Port to use for the SMTP server.                        |
+| `EMAIL_USE_TLS`       | `False`                   | Use a TLS connection to the SMTP server.                |
+| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot`    | The default "from" address used in email notifications. |
+| `EMAIL_TEMPLATE_DIR`  | `/etc/keystone/templates` | Directory to search for customized email templates.     |
+| `EMAIL_DEBUG_DIR`     |                           | Write emails to disk instead of using the SMTP server.  |
+
+## LDAP Authentication
+
+Using LDAP for authentication is optional and disabled by default.
+To enable LDAP, set the `AUTH_LDAP_SERVER_URI` value to the desired LDAP endpoint.
+Enabling LDAP integration will also add LDAP related health checks to the
+[API health endpoint](../operate/monitoring.md#system-health).
+
+Application user fields are mapped to LDAP attributes by specifying the `AUTH_LDAP_ATTR_MAP` setting.
+The following example maps the `first_name` and `last_name` fields used by Keystone to the LDAP attributes `givenName`
+and `sn`:
+
+```bash
+AUTH_LDAP_ATTR_MAP="first_name=givenName,last_name=sn"
+```
+
+A full list of available user fields can be found in the project's [OpenApi specification](../../integrate/api/openapi.md).
+
+| Setting Name              | Default Value           | Description                                                       |
+|---------------------------|-------------------------|-------------------------------------------------------------------|
+| `AUTH_LDAP_SERVER_URI`    |                         | The URI of the LDAP server.                                       |
+| `AUTH_LDAP_START_TLS`     | `True`                  | Whether to use TLS when connecting to the LDAP server.            |
+| `AUTH_LDAP_BIND_DN`       |                         | Optionally bind LDAP queries to the given DN.                     |
+| `AUTH_LDAP_BIND_PASSWORD` |                         | The password to use when binding to the LDAP server.              |
+| `AUTH_LDAP_USER_SEARCH`   |                         | The base DN for searching users in the LDAP server.               |
+| `AUTH_LDAP_USER_FILTER`   | `(objectClass=account)` | Search filter to apply when selecting LDAP user account entries.  |
+| `AUTH_LDAP_LOGIN_FILTER`  | `(uid=%(user)s)`        | Search filter for username lookups during authentication.         |
+| `AUTH_LDAP_REQUIRE_CERT`  | `False`                 | Whether to require certificate verification.                      |
+| `AUTH_LDAP_ATTR_MAP`      |                         | A mapping of user fields to LDAP attribute names.                 |
+| `AUTH_LDAP_TIMEOUT`       | `10`                    | The number of seconds before timing out an LDAP connection/query. |

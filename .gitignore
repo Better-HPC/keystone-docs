@@ -1,9 +1,9 @@
-# Compiled source code
-site/
-
 # IDE / Developer
 .idea/
-*.env
 
 # OS
 .DS_Store
+
+# Complied Documentation
+.cache
+site

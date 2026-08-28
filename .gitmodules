@@ -1,12 +1,12 @@
-[submodule "docs/submodules/keystone-api"]
-	path = docs/submodules/keystone-api
-	url = https://github.com/better-hpc/keystone-api
-[submodule "docs/submodules/keystone-web"]
-	path = docs/submodules/keystone-web
-	url = https://github.com/better-hpc/keystone-web
-[submodule "docs/submodules/keystone-python-client"]
-	path = docs/submodules/keystone-python-client
-	url = https://github.com/better-hpc/keystone-python-client
-[submodule "docs/submodules/keystone-agent"]
-	path = docs/submodules/keystone-agent
-	url = https://github.com/Better-HPC/keystone-agent/
+[submodule "docs/assets/submodules/keystone-api"]
+	path = docs/assets/submodules/keystone-api
+	url = https://github.com/Better-HPC/keystone-api/
+[submodule "docs/assets/submodules/keystone-demo"]
+	path = docs/assets/submodules/keystone-demo
+	url = https://github.com/Better-HPC/keystone-demo/
+[submodule "docs/assets/submodules/keystone-web"]
+	path = docs/assets/submodules/keystone-web
+	url = https://github.com/Better-HPC/keystone-web
+[submodule "docs/assets/submodules/keystone-python-client"]
+	path = docs/assets/submodules/keystone-python-client
+	url = https://github.com/Better-HPC/keystone-python-client

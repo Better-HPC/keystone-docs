@@ -37,7 +37,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
 
       - name: Update submodule
-        working-directory: docs/submodules/${{ env.repo_name }}
+        working-directory: docs/assets/submodules/${{ env.repo_name }}
         run: |
           echo "Updating $(pwd)"
           git fetch --tags
