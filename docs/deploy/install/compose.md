@@ -30,7 +30,7 @@ available API settings, see the [Settings](../configure/api_settings.md) page.
 | `scheduler` |               | Celery Beat scheduler for executing periodic tasks.                            |
 | `worker`    |               | Celery worker processes for background task execution (4 replicas by default). |
 
-??? abstract "Full docker-compose.yml"
+??? abstract "docker-compose.yml"
 
     ```yaml
     --8<-- "submodules/keystone-demo/demo/docker-compose.yml"

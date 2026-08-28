@@ -8,7 +8,7 @@ never left in a partial state.
 
 Batch jobs are submitted as a JSON object with a single top-level `job` key whose value describes the job to execute.
 The job's `actions` list is used to define the HTTP requests to be processed in bulk by the API.
-The following example demonstrates a job used to create two separate Grant records.
+The following example demonstrates a job used to create two new user accounts.
 
 ```json
 {
@@ -16,18 +16,18 @@ The following example demonstrates a job used to create two separate Grant recor
     "actions": [
       {
         "method": "POST",
-        "path": "/research/grants/",
+        "path": "/users/users/",
         "payload": {
-          "title": "First New Grant",
-          "team": 1
+          "username": "user1",
+          "password": "quickstart"
         }
       },
       {
         "method": "POST",
-        "path": "/research/grants/",
+        "path": "/users/users/",
         "payload": {
-          "title": "Second New Grant",
-          "team": 1
+          "username": "user2",
+          "password": "quickstart"
         }
       }
     ]
@@ -54,27 +54,37 @@ To use a reference, assign a `ref` alias to the action whose output you want to 
 Then use the `@ref{alias.dotpath}` syntax in any subsequent `path`, `payload`, or `query_params` value.
 References support both dictionary key access and integer list indexing, allowing deep traversal into nested objects.
 
-In the following example, a grant is created in the first step and its `id` is injected into the path of the second
-step:
+In the following example, a user and team are created in the first two steps, each with a unique reference. 
+The user is then assigned team membership using the generated team and user id values in a subsequent request.
 
 ```json
 {
   "job": {
     "actions": [
       {
-        "ref": "new_grant",
+        "ref": "new_user",
         "method": "POST",
-        "path": "/research/grants/",
+        "path": "/users/users/",
         "payload": {
-          "title": "My Grant",
-          "team": 1
+          "username": "member1",
+          "password": "quickstart"
         }
       },
       {
-        "method": "PATCH",
-        "path": "/research/grants/@ref{new_grant.id}/",
+        "ref": "new_team",
+        "method": "POST",
+        "path": "/users/teams/",
         "payload": {
-          "title": "Updated Title"
+          "name": "Team 1"
+        }
+      },
+      {
+        "method": "POST",
+        "path": "/users/memberships/",
+        "payload": {
+          "user": "@ref{new_user.id}",
+          "team": "@ref{new_team.id}",
+          "role": "MB"
         }
       }
     ]
@@ -127,10 +137,10 @@ This is useful for validating a job before committing it.
     "actions": [
       {
         "method": "POST",
-        "path": "/research/grants/",
+        "path": "/users/users/",
         "payload": {
-          "title": "My Grant",
-          "team": 1
+          "username": "dryrun",
+          "password": "quickstart"
         }
       }
     ]
@@ -147,15 +157,14 @@ For example:
 {
   "results": [
     {
-      "ref": "new_grant",
+      "ref": "",
       "index": 1,
       "method": "POST",
-      "path": "/research/grants/",
+      "path": "/users/users/",
       "status": 201,
       "body": {
-        "id": 42,
-        "title": "My Grant",
-        "team": 1
+        "username": "newuser",
+        ...
       }
     }
   ]
@@ -181,12 +190,12 @@ For example:
 
 ```json
 {
-  "detail": "Step #2 (POST /research/grants/) failed with status 400",
+  "detail": "Step #1 (POST /users/users/) failed with status 400",
   "step": 2,
   "status": 400,
   "body": {
     "title": [
-      "This field is required."
+      "user with this username already exists."
     ]
   }
 }
