@@ -43,9 +43,8 @@ In the following example, `field1` is sorted in ascending order followed by `fie
 
 ## Searching Records
 
-The `_search` parameter provides support for semantic text searching.
-When provided, the API will compare the search value against each record's text fields and return any case-insensitive
-partial matches.
+The `_search` parameter provides support for semantic text searching. When defined, the API will compare the search
+value against each record's text fields and return any case-insensitive partial matches.
 
 ```bash
 .../endpoint/?_search=user%20search%20input
@@ -53,7 +52,7 @@ partial matches.
 
 ## Filtering Records
 
-Query parameters allow users to filter records by the record content.
+Query parameters provide basic support for filtering records by the value of their fields.
 In the following example, returned records are limited to those where the `example` field equals `100`:
 
 ```
@@ -74,64 +73,76 @@ The available filter expressions depend on a field's data type and are summarize
 
 The following filters are available for all data types.
 
-| Filter   | Description                                                         | Example               |
-|----------|---------------------------------------------------------------------|-----------------------|
-| (none)   | Filter where the field matches a value exactly                      | `field=value`         |
-| `not_eq` | Filter where the field does not match a value exactly               | `field__not_eq=value` |
-| `in`     | Filter where the field is in a comma-separated list of values       | `field__in=1,2,3`     |
-| `not_in` | Filter where the field is *not* in a comma-separated list of values | `field__not_in=1,2,3` |
-| `isnull` | Filter where the field is None                                      | `field__isnull=true`  |
+| Query Expression | Description                                                    | Example               |
+|------------------|----------------------------------------------------------------|-----------------------|
+| (none)           | Whether the value matches exactly                              | `field=value`         |
+| `not_eq`         | Whether the value does not matches exactly                     | `field__not_eq=value` |
+| `in`             | Whether the value is in a comma-separated list of values       | `field__in=1,2,3`     |
+| `not_in`         | Whether the value is *not* in a comma-separated list of values | `field__not_in=1,2,3` |
+| `isnull`         | Whether the value is None                                      | `field__isnull=true`  |
 
 ### Numeric Filters
 
 The following filters are available for numerical data such as floats and integers.
 
-| Filter | Description                                                        | Example          |
-|--------|--------------------------------------------------------------------|------------------|
-| `lt`   | Filter where the field is less than the given value                | `field__lt=100`  |
-| `lte`  | Filter where the field is less than or equal to the given value    | `field__lte=100` |
-| `gt`   | Filter where the field is greater than the given value             | `field__gt=100`  |
-| `gte`  | Filter where the field is greater than or equal to the given value | `field__gte=100` |
+| Query Expression | Description                                                 | Example          |
+|------------------|-------------------------------------------------------------|------------------|
+| `lt`             | Whether the value is less than another value                | `field__lt=100`  |
+| `lte`            | Whether the value is less than or equal to another value    | `field__lte=100` |
+| `gt`             | Whether the value is greater than another value             | `field__gt=100`  |
+| `gte`            | Whether the value is greater than or equal to another value | `field__gte=100` |
 
 ### String Filters
 
 The following filters are available for text and character values.
 
-| Filter           | Description                                                 | Example                         |
-|------------------|-------------------------------------------------------------|---------------------------------|
-| `contains`       | Filter where the field contains the given text              | `field__contains=subtext`       |
-| `not_contains`   | Filter where the field does *not* contain the given text    | `field__not_contains=subtext`   |
-| `startswith`     | Filter where the field starts with the given text           | `field__startswith=subtext`     |
-| `not_startswith` | Filter where the field does *not* start with the given text | `field__not_startswith=subtext` |
-| `endswith`       | Filter where the field ends with the given text             | `field__endswith=subtext`       |
-| `not_endswith`   | Filter where the field does *not* end with the given text   | `field__not_endswith=subtext`   |
+| Query Expression | Description                                            | Example                         |
+|------------------|--------------------------------------------------------|---------------------------------|
+| `contains`       | Whether the value contains subtext                     | `field__contains=subtext`       |
+| `not_contains`   | Whether the value does *not* contain the given text    | `field__not_contains=subtext`   |
+| `startswith`     | Whether the value starts with the given text           | `field__startswith=subtext`     |
+| `not_startswith` | Whether the value does *not* start with the given text | `field__not_startswith=subtext` |
+| `endswith`       | Whether the value ends with the given text             | `field__endswith=subtext`       |
+| `not_endswith`   | Whether the value does *not* end with the given text   | `field__not_endswith=subtext`   |
 
 ### Date Filters
 
 The following filters are available for date and datetime values in ISO-8601 format.
 
-| Filter     | Description                                                       | Example                 |
-|------------|-------------------------------------------------------------------|-------------------------|
-| `year`     | Whether the date value matches the given year                     | `field__year=2022`      |
-| `month`    | Whether the date value matches the given month                    | `field__month=12`       |
-| `day`      | Whether the date value matches the given day                      | `field__day=25`         |
-| `week`     | Whether the date value falls on the given week of the month       | `field__week=52`        |
-| `week_day` | Whether the date value falls on the given day of the week         | `field__week_day=1`     |
-| `lt`       | Filter where the field is less than the given date                | `field__lt=2020-01-22`  |
-| `lte`      | Filter where the field is less than or equal to the given date    | `field__lte=2020-01-22` |
-| `gt`       | Filter where the field is greater than the given date             | `field__gt=2020-01-22`  |
-| `gte`      | Filter where the field is greater than or equal to the given date | `field__gte=2020-01-22` |
+| Query Expression | Description                                                 | Example                 |
+|------------------|-------------------------------------------------------------|-------------------------|
+| `year`           | Whether the date value matches a given year                 | `field__year=2022`      |
+| `month`          | Whether the date value matches a given month                | `field__month=12`       |
+| `day`            | Whether the date value matches a given day                  | `field__day=25`         |
+| `week`           | Whether the date value falls on a given week of the month   | `field__week=52`        |
+| `week_day`       | Whether the date value falls on a given day of the week     | `field__week_day=1`     |
+| `lt`             | Whether the value is less than another value                | `field__lt=2020-01-22`  |
+| `lte`            | Whether the value is less than or equal to another value    | `field__lte=2020-01-22` |
+| `gt`             | Whether the value is greater than another value             | `field__gt=2020-01-22`  |
+| `gte`            | Whether the value is greater than or equal to another value | `field__gte=2020-01-22` |
 
 ### Time Filters
 
 The following filters are available for time and datetime values in ISO-8601 format.
 
-| Filter   | Description                                                       | Example               |
-|----------|-------------------------------------------------------------------|-----------------------|
-| `hour`   | Whether the time value matches the given hour                     | `field__hour=8`       |
-| `minute` | Whether the time value matches the given minute                   | `field__minute=30`    |
-| `second` | Whether the time value matches the given second                   | `field__second=45`    |
-| `lt`     | Filter where the field is less than the given time                | `field__lt=19:20:15`  |
-| `lte`    | Filter where the field is less than or equal to the given time    | `field__lte=19:20:15` |
-| `gt`     | Filter where the field is greater than the given time             | `field__gt=19:20:15`  |
-| `gte`    | Filter where the field is greater than or equal to the given time | `field__gte=19:20:15` |
+| Query Expression | Description                                                 | Example               |
+|------------------|-------------------------------------------------------------|-----------------------|
+| `hour`           | Whether the time value matches a given hour                 | `field__hour=8`       |
+| `minute`         | Whether the time value matches a given minute               | `field__minute=30`    |
+| `second`         | Whether the time value matches a given second               | `field__second=45`    |
+| `lt`             | Whether the value is less than another value                | `field__lt=19:20:15`  |
+| `lte`            | Whether the value is less than or equal to another value    | `field__lte=19:20:15` |
+| `gt`             | Whether the value is greater than another value             | `field__gt=19:20:15`  |
+| `gte`            | Whether the value is greater than or equal to another value | `field__gte=19:20:15` |
+
+### Many to Many
+
+The following filters are available for fields containing an array of record ID values.
+
+| Query Expression | Description                                         | Example               |
+|------------------|-----------------------------------------------------|-----------------------|
+| (none)           | Whether the array contains the given value          | `field=value`         |
+| `not_eq`         | Whether the array does not contain the given value  | `field__not_eq=value` |
+| `in`             | Whether the array contains any of the given values  | `field__in=1,2,3`     |
+| `not_in`         | Whether the array contains none of the given values | `field__not_in=1,2,3` |
+| `isnull`         | Whether the array is empty or the field is null     | `field__isnull=true`  |
