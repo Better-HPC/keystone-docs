@@ -2,24 +2,23 @@
 
 The API server reads application settings from environment variables
 defined in the underlying runtime environment (i.e., inside the
-deployed API container). Individual settings are listed below by 
+deployed API container). Individual settings are listed below by
 category and use case.
 
 ## Security Settings
 
-Security settings are used to configure application networking and request 
-signing. These values should be chosen with care. Improperly configured 
-settings can introduce dangerous vulnerabilities and may damage your 
+Security settings are used to configure application networking and request
+signing. These values should be chosen with care. Improperly configured
+settings can introduce dangerous vulnerabilities and may damage your
 production deployment.
 
 ### Core Security
 
 The Keystone API requires a random secret key to sign and verify requests.
-Secret keys are conventionally 50 characters long and can be generated using 
+Secret keys are conventionally 50 characters long and can be generated using
 common utilities like `openssl` (e.g., `openssl rand -base64 48 | cut -c1-50`).
 Administrators should always configure their own custom key and persist the value
 across application instances and restarts.
-
 
 | Setting Name        | Default Value      | Description                                      |
 |---------------------|--------------------|--------------------------------------------------|
@@ -79,16 +78,18 @@ Default values are defined relative to the following list of _default local addr
 
 Keystone uses file storage for various static and user driven content.
 By default, these files are stored in subdirectories of the installed application directory (`<app>`).
-It is generally recommended to customize the storage location using a filesystem with enterprise grade backup and redundancy.
+It is generally recommended to customize the storage location using a filesystem with enterprise grade
+backup and redundancy.
 
-| Setting Name           | Default Value         | Description                                                              |
-|------------------------|-----------------------|--------------------------------------------------------------------------|
-| `CONFIG_STATIC_DIR`    | `<app>/static_files`  | Where to store internal static files required by the application.        |
-| `CONFIG_UPLOAD_DIR`    | `<app>/media`         | Where to store file data uploaded by users.                              |
-| `CONFIG_UPLOAD_SIZE`   | `2621440` (2.5 MB)    | Maximum allowed file upload size in bytes.                               |
-| `CONFIG_UPLOAD_COUNT`  | `15`                  | Maximum files allowed in a single upload request.                        |
-| `CONFIG_TIMEZONE`      | `UTC`                 | The timezone to use when rendering date/time values.                     |
-| `CONFIG_METRICS_PORTS` | `9101` through `9150` | Port numbers used to expose prometheus metrics (e.g., `9101,9102,9103`). |
+| Setting Name           | Default Value           | Description                                                                                        |
+|------------------------|-------------------------|----------------------------------------------------------------------------------------------------|
+| `CONFIG_STATIC_DIR`    | `<app>/static_files`    | Where to store internal static files required by the application.                                  |
+| `CONFIG_UPLOAD_DIR`    | `<app>/media`           | Where to store file data uploaded by users.                                                        |
+| `CONFIG_UPLOAD_SIZE`   | `2621440` (2.5 MB)      | Maximum allowed file upload size in bytes.                                                         |
+| `CONFIG_UPLOAD_COUNT`  | `15`                    | Maximum files allowed in a single upload request.                                                  |
+| `CONFIG_TIMEZONE`      | `UTC`                   | The timezone to use when rendering date/time values.                                               |
+| `CONFIG_METRICS_PORTS` | `9101` through `9150`   | Port numbers used to expose prometheus metrics (e.g., `9101,9102,9103`).                           |
+| `CONFIG_FRONTEND_URL`  | `http://localhost:4200` | Base URL of the frontend application, used when rendering links such as in notification templates. |
 
 ## Logging
 
@@ -176,7 +177,8 @@ and `sn`:
 AUTH_LDAP_ATTR_MAP="first_name=givenName,last_name=sn"
 ```
 
-A full list of available user fields can be found in the project's [OpenApi specification](../../integrate/api/openapi.md).
+A full list of available user fields can be found in the
+project's [OpenApi specification](../../integrate/api/openapi.md).
 
 | Setting Name              | Default Value           | Description                                                       |
 |---------------------------|-------------------------|-------------------------------------------------------------------|
