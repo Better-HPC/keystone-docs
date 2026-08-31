@@ -58,7 +58,8 @@ In most deployments, the settings above should be configured as follows:
 
 - **`SECURE_SSL_TOKENS`**: Enabled when serving over HTTPS and disabled otherwise.
 - **`SECURE_ALLOWED_HOSTS`**: Set to the domain name(s) where the API is hosted <br> (e.g., `api.example.com`).
-- **`SECURE_ALLOWED_ORIGINS`**: Set to the full URL(s) of the frontend web application <br> (e.g., `https://app.example.com`).
+- **`SECURE_ALLOWED_ORIGINS`**: Set to the full URL(s) of the frontend web application <br> (e.g.,
+  `https://app.example.com`).
 - **`SECURE_TOKEN_DOMAIN`**: Only required when the API and frontend are hosted on different subdomains of the same
   parent domain. This setting should specify the parent domain with a leading dot (e.g., `.example.com`) to allow
   token sharing across subdomains.
@@ -81,20 +82,20 @@ By default, these files are stored in subdirectories of the installed applicatio
 It is generally recommended to customize the storage location using a filesystem with enterprise grade
 backup and redundancy.
 
-| Setting Name           | Default Value           | Description                                                                                        |
-|------------------------|-------------------------|----------------------------------------------------------------------------------------------------|
-| `CONFIG_STATIC_DIR`    | `<app>/static_files`    | Where to store internal static files required by the application.                                  |
-| `CONFIG_UPLOAD_DIR`    | `<app>/media`           | Where to store file data uploaded by users.                                                        |
-| `CONFIG_UPLOAD_SIZE`   | `2621440` (2.5 MB)      | Maximum allowed file upload size in bytes.                                                         |
-| `CONFIG_UPLOAD_COUNT`  | `15`                    | Maximum files allowed in a single upload request.                                                  |
-| `CONFIG_TIMEZONE`      | `UTC`                   | The timezone to use when rendering date/time values.                                               |
-| `CONFIG_METRICS_PORTS` | `9101` through `9150`   | Port numbers used to expose prometheus metrics (e.g., `9101,9102,9103`).                           |
-| `CONFIG_FRONTEND_URL`  | `http://localhost:4200` | Base URL of the frontend application, used when rendering links such as in notification templates. |
+| Setting Name           | Default Value         | Description                                                              |
+|------------------------|-----------------------|--------------------------------------------------------------------------|
+| `CONFIG_STATIC_DIR`    | `<app>/static_files`  | Where to store internal static files required by the application.        |
+| `CONFIG_UPLOAD_DIR`    | `<app>/media`         | Where to store file data uploaded by users.                              |
+| `CONFIG_UPLOAD_SIZE`   | `2621440` (2.5 MB)    | Maximum allowed file upload size in bytes.                               |
+| `CONFIG_UPLOAD_COUNT`  | `15`                  | Maximum files allowed in a single upload request.                        |
+| `CONFIG_TIMEZONE`      | `UTC`                 | The timezone to use when rendering date/time values.                     |
+| `CONFIG_METRICS_PORTS` | `9101` through `9150` | Port numbers used to expose prometheus metrics (e.g., `9101,9102,9103`). |
 
 ## Logging
 
 Keystone automatically purges log records according to the policy settings below.
-Application logs are written to disk using a size-based policy that rotates files according to a maximum file size/count.
+Application logs are written to disk using a size-based policy that rotates files according to a maximum file
+size/count.
 Audit, request, and task logs are maintained in the application database and are removed once they exceed a configured
 age (in seconds).
 
@@ -145,22 +146,21 @@ Enabling password authentication is strongly recommended.
 | `REDIS_DB`       | `0`           | The Redis database number to use.            |
 | `REDIS_PASSWORD` |               | Optionally connect using the given password. |
 
-## Email Notifications
+## SMTP Connection
 
 Keystone will default to using a local server when issuing email notifications.
 An alternative SMTP server can be specified using the settings below.
 Securing your production email server with a username/password is strongly recommended.
 
-| Setting Name          | Default Value             | Description                                             |
-|-----------------------|---------------------------|---------------------------------------------------------|
-| `EMAIL_HOST`          | `localhost`               | The host server to use for sending email.               |
-| `EMAIL_HOST_USER`     |                           | Username to use for the SMTP server.                    |
-| `EMAIL_HOST_PASSWORD` |                           | Password to use for the SMTP server.                    |
-| `EMAIL_PORT`          | `25`                      | Port to use for the SMTP server.                        |
-| `EMAIL_USE_TLS`       | `False`                   | Use a TLS connection to the SMTP server.                |
-| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot`    | The default "from" address used in email notifications. |
-| `EMAIL_TEMPLATE_DIR`  | `/etc/keystone/templates` | Directory to search for customized email templates.     |
-| `EMAIL_DEBUG_DIR`     |                           | Write emails to disk instead of using the SMTP server.  |
+| Setting Name          | Default Value          | Description                                             |
+|-----------------------|------------------------|---------------------------------------------------------|
+| `EMAIL_HOST`          | `localhost`            | The host server to use for sending email.               |
+| `EMAIL_HOST_USER`     |                        | Username to use for the SMTP server.                    |
+| `EMAIL_HOST_PASSWORD` |                        | Password to use for the SMTP server.                    |
+| `EMAIL_PORT`          | `25`                   | Port to use for the SMTP server.                        |
+| `EMAIL_USE_TLS`       | `False`                | Use a TLS connection to the SMTP server.                |
+| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot` | The default "from" address used in email notifications. |
+| `EMAIL_DEBUG_DIR`     |                        | Write emails to disk instead of using the SMTP server.  |
 
 ## LDAP Authentication
 
@@ -192,3 +192,14 @@ project's [OpenApi specification](../../integrate/api/openapi.md).
 | `AUTH_LDAP_REQUIRE_CERT`  | `False`                 | Whether to require certificate verification.                      |
 | `AUTH_LDAP_ATTR_MAP`      |                         | A mapping of user fields to LDAP attribute names.                 |
 | `AUTH_LDAP_TIMEOUT`       | `10`                    | The number of seconds before timing out an LDAP connection/query. |
+
+## Notification Content
+
+The settings below determine how notification content is rendered.
+They are independent of the SMTP connection settings above and apply to every notification Keystone issues.
+See the [notification template documentation](notification_templates.md) for details on customizing user notifications.
+
+| Setting Name          | Default Value             | Description                                                      |
+|-----------------------|---------------------------|------------------------------------------------------------------|
+| `NOTIFY_TEMPLATE_DIR` | `/etc/keystone/templates` | Directory to search for customized notification templates.       |
+| `NOTIFY_FRONTEND_URL` |                           | Base URL of the frontend application, used when rendering links. |
