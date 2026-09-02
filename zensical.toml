@@ -61,6 +61,7 @@ enabled = false
 [project.theme]
 custom_dir = "overrides"
 logo = "assets/images/logo.svg"
+favicon = "assets/images/favicon.png"
 features = [
     "content.action.edit",
     "content.action.view",
