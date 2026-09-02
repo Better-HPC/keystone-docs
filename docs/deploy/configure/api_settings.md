@@ -197,7 +197,7 @@ project's [OpenApi specification](../../integrate/api/openapi.md).
 
 The settings below determine how notification content is rendered.
 They are independent of the SMTP connection settings above and apply to every notification Keystone issues.
-See the [notification template documentation](notification_templates.md) for details on customizing user notifications.
+See the [notification template documentation](notifications.md) for details on customizing user notifications.
 
 | Setting Name          | Default Value             | Description                                                      |
 |-----------------------|---------------------------|------------------------------------------------------------------|
