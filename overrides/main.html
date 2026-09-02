@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block site_nav %}
+  {% if nav %}
+    {% set nav_hidden = "hidden" if page.meta and page.meta.hide and "navigation" in page.meta.hide %}
+    <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" {{ nav_hidden }}>
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner">
+          {% include "partials/nav.html" %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  {% if "toc.integrate" not in config.theme.features %}
+
+    {# Mirror the H1 unwrapping in partials/toc.html so an empty TOC is detected the same way it is rendered #}
+    {% set items = page.toc %}
+    {% set first = items | first %}
+    {% if first and first.level == 1 %}
+      {% set items = first.children %}
+    {% endif %}
+
+    {% set toc_hidden = "hidden" if not items or (page.meta and page.meta.hide and "toc" in page.meta.hide) %}
+    <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" {{ toc_hidden }}>
+      <div class="md-sidebar__scrollwrap">
+        <div class="md-sidebar__inner">
+          {% include "partials/toc.html" %}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
