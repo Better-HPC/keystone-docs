@@ -37,18 +37,6 @@
         display: flex;
         align-items: center;
     }
-
-    .md-header__logo {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-    }
-
-    .md-header__logo img {
-        display: block;
-        height: 1.7rem;
-        width: auto;
-    }
 </style>
 
 <!-- Header -->
@@ -69,16 +57,7 @@
 
     <!-- Header title -->
     <div class="md-header__title" data-md-component="header-title">
-      <!-- Link to home -->
-      <a
-        href="{{ config.extra.homepage | d(nav.homepage.url, true) | url }}"
-        class="md-header__logo"
-      >
-        <img
-          src="{{ config.theme.logo | d('assets/media/logo.svg', true) | url }}"
-          alt="{{ config.site_name | e }}"
-        >
-      </a>
+      {% include "partials/logo.html" %}
     </div>
 
     <!-- Color palette toggle -->
