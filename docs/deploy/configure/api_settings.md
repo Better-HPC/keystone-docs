@@ -2,24 +2,23 @@
 
 The API server reads application settings from environment variables
 defined in the underlying runtime environment (i.e., inside the
-deployed API container). Individual settings are listed below by 
+deployed API container). Individual settings are listed below by
 category and use case.
 
 ## Security Settings
 
-Security settings are used to configure application networking and request 
-signing. These values should be chosen with care. Improperly configured 
-settings can introduce dangerous vulnerabilities and may damage your 
+Security settings are used to configure application networking and request
+signing. These values should be chosen with care. Improperly configured
+settings can introduce dangerous vulnerabilities and may damage your
 production deployment.
 
 ### Core Security
 
 The Keystone API requires a random secret key to sign and verify requests.
-Secret keys are conventionally 50 characters long and can be generated using 
+Secret keys are conventionally 50 characters long and can be generated using
 common utilities like `openssl` (e.g., `openssl rand -base64 48 | cut -c1-50`).
 Administrators should always configure their own custom key and persist the value
 across application instances and restarts.
-
 
 | Setting Name        | Default Value      | Description                                      |
 |---------------------|--------------------|--------------------------------------------------|
@@ -59,7 +58,8 @@ In most deployments, the settings above should be configured as follows:
 
 - **`SECURE_SSL_TOKENS`**: Enabled when serving over HTTPS and disabled otherwise.
 - **`SECURE_ALLOWED_HOSTS`**: Set to the domain name(s) where the API is hosted <br> (e.g., `api.example.com`).
-- **`SECURE_ALLOWED_ORIGINS`**: Set to the full URL(s) of the frontend web application <br> (e.g., `https://app.example.com`).
+- **`SECURE_ALLOWED_ORIGINS`**: Set to the full URL(s) of the frontend web application <br> (e.g.,
+  `https://app.example.com`).
 - **`SECURE_TOKEN_DOMAIN`**: Only required when the API and frontend are hosted on different subdomains of the same
   parent domain. This setting should specify the parent domain with a leading dot (e.g., `.example.com`) to allow
   token sharing across subdomains.
@@ -79,7 +79,8 @@ Default values are defined relative to the following list of _default local addr
 
 Keystone uses file storage for various static and user driven content.
 By default, these files are stored in subdirectories of the installed application directory (`<app>`).
-It is generally recommended to customize the storage location using a filesystem with enterprise grade backup and redundancy.
+It is generally recommended to customize the storage location using a filesystem with enterprise grade
+backup and redundancy.
 
 | Setting Name           | Default Value         | Description                                                              |
 |------------------------|-----------------------|--------------------------------------------------------------------------|
@@ -93,7 +94,8 @@ It is generally recommended to customize the storage location using a filesystem
 ## Logging
 
 Keystone automatically purges log records according to the policy settings below.
-Application logs are written to disk using a size-based policy that rotates files according to a maximum file size/count.
+Application logs are written to disk using a size-based policy that rotates files according to a maximum file
+size/count.
 Audit, request, and task logs are maintained in the application database and are removed once they exceed a configured
 age (in seconds).
 
@@ -144,22 +146,21 @@ Enabling password authentication is strongly recommended.
 | `REDIS_DB`       | `0`           | The Redis database number to use.            |
 | `REDIS_PASSWORD` |               | Optionally connect using the given password. |
 
-## Email Notifications
+## SMTP Connection
 
 Keystone will default to using a local server when issuing email notifications.
 An alternative SMTP server can be specified using the settings below.
 Securing your production email server with a username/password is strongly recommended.
 
-| Setting Name          | Default Value             | Description                                             |
-|-----------------------|---------------------------|---------------------------------------------------------|
-| `EMAIL_HOST`          | `localhost`               | The host server to use for sending email.               |
-| `EMAIL_HOST_USER`     |                           | Username to use for the SMTP server.                    |
-| `EMAIL_HOST_PASSWORD` |                           | Password to use for the SMTP server.                    |
-| `EMAIL_PORT`          | `25`                      | Port to use for the SMTP server.                        |
-| `EMAIL_USE_TLS`       | `False`                   | Use a TLS connection to the SMTP server.                |
-| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot`    | The default "from" address used in email notifications. |
-| `EMAIL_TEMPLATE_DIR`  | `/etc/keystone/templates` | Directory to search for customized email templates.     |
-| `EMAIL_DEBUG_DIR`     |                           | Write emails to disk instead of using the SMTP server.  |
+| Setting Name          | Default Value          | Description                                             |
+|-----------------------|------------------------|---------------------------------------------------------|
+| `EMAIL_HOST`          | `localhost`            | The host server to use for sending email.               |
+| `EMAIL_HOST_USER`     |                        | Username to use for the SMTP server.                    |
+| `EMAIL_HOST_PASSWORD` |                        | Password to use for the SMTP server.                    |
+| `EMAIL_PORT`          | `25`                   | Port to use for the SMTP server.                        |
+| `EMAIL_USE_TLS`       | `False`                | Use a TLS connection to the SMTP server.                |
+| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot` | The default "from" address used in email notifications. |
+| `EMAIL_DEBUG_DIR`     |                        | Write emails to disk instead of using the SMTP server.  |
 
 ## LDAP Authentication
 
@@ -176,7 +177,8 @@ and `sn`:
 AUTH_LDAP_ATTR_MAP="first_name=givenName,last_name=sn"
 ```
 
-A full list of available user fields can be found in the project's [OpenApi specification](../../integrate/api/openapi.md).
+A full list of available user fields can be found in the
+project's [OpenApi specification](../../integrate/api/openapi.md).
 
 | Setting Name              | Default Value           | Description                                                       |
 |---------------------------|-------------------------|-------------------------------------------------------------------|
@@ -190,3 +192,14 @@ A full list of available user fields can be found in the project's [OpenApi spec
 | `AUTH_LDAP_REQUIRE_CERT`  | `False`                 | Whether to require certificate verification.                      |
 | `AUTH_LDAP_ATTR_MAP`      |                         | A mapping of user fields to LDAP attribute names.                 |
 | `AUTH_LDAP_TIMEOUT`       | `10`                    | The number of seconds before timing out an LDAP connection/query. |
+
+## Notification Content
+
+The settings below determine how notification content is rendered.
+They are independent of the SMTP connection settings above and apply to every notification Keystone issues.
+See the [notification template documentation](notifications.md) for details on customizing user notifications.
+
+| Setting Name          | Default Value             | Description                                                      |
+|-----------------------|---------------------------|------------------------------------------------------------------|
+| `NOTIFY_TEMPLATE_DIR` | `/etc/keystone/templates` | Directory to search for customized notification templates.       |
+| `NOTIFY_FRONTEND_URL` |                           | Base URL of the frontend application, used when rendering links. |

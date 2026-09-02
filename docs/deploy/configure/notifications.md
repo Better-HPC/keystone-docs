@@ -23,13 +23,24 @@ Template files are required to have no write permissions for users other than th
 If a template file has world-writeable permissions, Keystone will refuse to load it.
 This restriction is provided for security and ensures templates cannot be modified by unauthorized users in production.
 
-Notification templates are automatically sanitized to remove any JavaScript or externally loaded resources (e.g. CSS imports).
+Notification templates are automatically sanitized to remove any JavaScript or externally loaded resources (e.g. CSS
+imports).
 Users familiar with the Jinja2 templating engine will also find certain Jinja features are not available, including
 access to application internals and the ability to bypass variable sanitation.
 
 ## Templates
 
 The following templates are available for customization.
+
+### Common Fields
+
+The following fields are available to all notification templates.
+
+??? info "Available Template Fields"
+
+    | Field Name     | Type  | Description                                                     |
+    |----------------|-------|-----------------------------------------------------------------|
+    | `frontend_url` | `str` | Base URL of the frontend application, without a trailing slash. |
 
 ### Base Template
 
@@ -46,7 +57,7 @@ The template defines two content blocks that child templates override to inject 
     | `footer`   | Footer content displayed at the bottom of the message. |
 
 ??? abstract "Default Template Content"
-    
+
     ```html
     --8<-- "submodules/keystone-api/keystone_api/templates/base.html"
     ```
@@ -85,7 +96,7 @@ its expiration date.
     | └ `status`                    | `str`            | Status of the upcoming allocation request.                                |
 
 ??? abstract "Default Template Content"
-    
+
     ```html
     --8<-- "submodules/keystone-api/keystone_api/templates/upcoming_expiration.html"
     ```
@@ -124,7 +135,7 @@ and that the resources granted under that allocation are no longer available for
     | └ `status`                    | `str`            | Status of the upcoming allocation request.                                |
 
 ??? abstract "Default Template Content"
-    
+
     ```html
     --8<-- "submodules/keystone-api/keystone_api/templates/past_expiration.html"
     ```
