@@ -152,15 +152,14 @@ Keystone will default to using a local server when issuing email notifications.
 An alternative SMTP server can be specified using the settings below.
 Securing your production email server with a username/password is strongly recommended.
 
-| Setting Name          | Default Value          | Description                                             |
-|-----------------------|------------------------|---------------------------------------------------------|
-| `EMAIL_HOST`          | `localhost`            | The host server to use for sending email.               |
-| `EMAIL_HOST_USER`     |                        | Username to use for the SMTP server.                    |
-| `EMAIL_HOST_PASSWORD` |                        | Password to use for the SMTP server.                    |
-| `EMAIL_PORT`          | `25`                   | Port to use for the SMTP server.                        |
-| `EMAIL_USE_TLS`       | `False`                | Use a TLS connection to the SMTP server.                |
-| `EMAIL_FROM_ADDRESS`  | `noreply@keystone.bot` | The default "from" address used in email notifications. |
-| `EMAIL_DEBUG_DIR`     |                        | Write emails to disk instead of using the SMTP server.  |
+| Setting Name         | Default Value | Description                                            |
+|----------------------|---------------|--------------------------------------------------------|
+| `SMTP_HOST`          | `localhost`   | The host server to use for sending email.              |
+| `SMTP_HOST_USER`     |               | Username to use for the SMTP server.                   |
+| `SMTP_HOST_PASSWORD` |               | Password to use for the SMTP server.                   |
+| `SMTP_PORT`          | `25`          | Port to use for the SMTP server.                       |
+| `SMTP_USE_TLS`       | `False`       | Use a TLS connection to the SMTP server.               |
+| `SMTP_DEBUG_DIR`     |               | Write emails to disk instead of using the SMTP server. |
 
 ## LDAP Authentication
 
@@ -201,5 +200,6 @@ See the [notification template documentation](notifications.md) for details on c
 
 | Setting Name          | Default Value             | Description                                                      |
 |-----------------------|---------------------------|------------------------------------------------------------------|
+| `NOTIFY_FROM_ADDRESS` | `noreply@keystone.bot`    | The default "from" address used in email notifications.          |
 | `NOTIFY_TEMPLATE_DIR` | `/etc/keystone/templates` | Directory to search for customized notification templates.       |
 | `NOTIFY_FRONTEND_URL` |                           | Base URL of the frontend application, used when rendering links. |
