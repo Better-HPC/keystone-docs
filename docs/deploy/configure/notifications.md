@@ -64,7 +64,7 @@ The template defines two content blocks that child templates override to inject 
 
 ### Upcoming Resource Expiration
 
-**Template file:** `upcoming_expiration.html`
+**Template file:** `request_nearing_expiration.html`
 
 The _upcoming expiration_ notification alerts users that one or more of their active resource allocations is nearing
 its expiration date.
@@ -98,12 +98,12 @@ its expiration date.
 ??? abstract "Default Template Content"
 
     ```html
-    --8<-- "submodules/keystone-api/keystone_api/templates/upcoming_expiration.html"
+    --8<-- "submodules/keystone-api/keystone_api/templates/request_nearing_expiration.html"
     ```
 
 ### Expired Resource Allocation
 
-**Template file:** `past_expiration.html`
+**Template file:** `request_past_expiration.html`
 
 The _past expiration_ notification alerts users that one or more of their active resource allocations has expired
 and that the resources granted under that allocation are no longer available for use.
@@ -137,5 +137,5 @@ and that the resources granted under that allocation are no longer available for
 ??? abstract "Default Template Content"
 
     ```html
-    --8<-- "submodules/keystone-api/keystone_api/templates/past_expiration.html"
+    --8<-- "submodules/keystone-api/keystone_api/templates/request_past_expiration.html"
     ```
