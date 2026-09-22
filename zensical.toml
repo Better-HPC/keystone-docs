@@ -67,6 +67,7 @@ features = [
     "content.action.view",
     "content.code.annotate",
     "content.code.copy",
+    "content.tabs.link",
     "navigation.indexes",
     "navigation.instant",
     "navigation.instant.progress",

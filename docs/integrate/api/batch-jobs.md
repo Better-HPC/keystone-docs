@@ -52,9 +52,9 @@ This allows the output of one action, such as a newly created record's ID, to be
 
 To use a reference, assign a `ref` alias to the action whose output you want to capture.
 Then use the `@ref{alias.dotpath}` syntax in any subsequent `path`, `payload`, or `query_params` value.
-References support both dictionary key access and integer list indexing, allowing deep traversal into nested objects.
+Reference aliases may only contain letters, numbers, hyphens, and underscores, and must be unique within a job.
 
-In the following example, a user and team are created in the first two steps, each with a unique reference. 
+In the following example, a user and team are created in the first two steps, each with a unique reference.
 The user is then assigned team membership using the generated team and user id values in a subsequent request.
 
 ```json
@@ -97,6 +97,45 @@ The user is then assigned team membership using the generated team and user id v
     Actions are executed following the order in which they are defined.
     An action can only reference the output of previous steps in the execution order.
     Forward references are not supported.
+
+## Traversing Nested Data
+
+The portion of a reference following the alias is a dotpath resolved against the referenced response body.
+Each segment is either a dictionary key or a zero-based list index, so responses can be traversed to arbitrary depth.
+
+Given a step aliased as `team_list` that returned the following body:
+
+```json
+{
+  "count": 2,
+  "results": [
+    {
+      "id": 17,
+      "name": "Team 1",
+      "_members": [
+        {
+          "id": 5,
+          "username": "member1"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "name": "Team 2",
+      "_members": []
+    }
+  ]
+}
+```
+
+The following tokens resolve as shown:
+
+| Token                                           | Resolved Value |
+|-------------------------------------------------|----------------|
+| `@ref{team_list.count}`                         | `2`            |
+| `@ref{team_list.results.0.id}`                  | `17`           |
+| `@ref{team_list.results.1.name}`                | `"Team 2"`     |
+| `@ref{team_list.results.0._members.0.username}` | `"member1"`    |
 
 ## Uploading Files
 
@@ -175,7 +214,7 @@ Each result contains the following fields:
 
 | Field    | Description                                                                  |
 |----------|------------------------------------------------------------------------------|
-| `ref`    | The actions's alias, or `null` if none was provided.                         |
+| `ref`    | The actions's alias, or an empty string if none was provided.                |
 | `index`  | The one-based position of the step within the job.                           |
 | `method` | The HTTP method executed.                                                    |
 | `path`   | The resolved path that was called, after any `@ref` tokens were substituted. |
@@ -190,11 +229,11 @@ For example:
 
 ```json
 {
-  "detail": "Step #1 (POST /users/users/) failed with status 400",
+  "detail": "Step #2 (POST /users/users/) failed with status 400",
   "step": 2,
   "status": 400,
   "body": {
-    "title": [
+    "username": [
       "user with this username already exists."
     ]
   }
@@ -203,8 +242,8 @@ For example:
 
 ### Reference Resolution Failure
 
-If a `@ref` or `@file` token cannot be resolved — for example because the alias is undefined, the dotpath is
-invalid, or a referenced file part was not uploaded — the job halts and a `422` error is returned:
+If a `@ref` or `@file` token cannot be resolved, the job will halt and return a `422` error containing the 
+token and error description:
 
 ```json
 {
