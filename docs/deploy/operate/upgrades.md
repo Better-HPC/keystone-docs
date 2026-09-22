@@ -62,8 +62,8 @@ docker compose down
 
 # Pause here to back up the application database
 
-# Edit the docker compose recipe to reference the desired version
+# Edit the docker compose recipe to reference the desired versions
 
-# Bring service back online
+# Bring services back online
 docker compose up -d
 ```

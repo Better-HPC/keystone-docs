@@ -8,8 +8,8 @@ copyright = "Copyright &copy; - Better HPC"
 
 extra_css = ["assets/stylesheets/extra.css"]
 extra_javascript = [
-    "assets/javascripts/tex-mml-chtml.js", # Matchjax library
-    "assets/javascripts/mathjax.js", # Commands to trigger mathjax rendering
+    "assets/javascripts/mathjax.js",
+    "assets/javascripts/tex-mml-chtml.js",
 ]
 
 nav = [
