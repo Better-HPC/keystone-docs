@@ -23,7 +23,7 @@ $\left ( W \right )$ summed over all resource types $\left ( R \right )$.
 This value is also commonly referred to as an HPC _service unit_.
 
 $$
-\text{Billable Usage} = \sum_\text{R} \,\, \left ( W_\text{R} * U_\text{R} \right )
+\text{Billable Usage} = \sum_\text{R} \left ( W_\text{R} * U_\text{R} \right )
 $$
 
 !!! Warning
