@@ -17,8 +17,8 @@ administrators and translates into a worse customer experience for HPC users.
 
 Keystone solves this problem by providing a unified management platform for
 HPC resources. Users get self-service access to request resources and monitor
-team consumption. Administrators get a central control plane for setting 
-allocation policy, monitoring usage in real time, and tracing that usage 
+team consumption. Meanwhile, administrators get a central control plane for
+setting allocation policy, monitoring usage in real time, and tracing that usage 
 back to individual teams and projects. Because allocation and access are 
 governed together, the two never drift apart. Keystone's built-in automation 
 keeps every change in sync, so what Keystone records and what the 
