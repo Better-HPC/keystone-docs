@@ -28,34 +28,82 @@ imports).
 Users familiar with the Jinja2 templating engine will also find certain Jinja features are not available, including
 access to application internals and the ability to bypass variable sanitation.
 
+## Partials
+
+Partials are small, reusable fragments used to render content shared across templates.
+Overriding a partial changes the corresponding content for all notifications at once, making partials the preferred
+customization point for organization-specific greetings and branding.
+Each partial is rendered using the same context as the template including it.
+
+### Greeting
+
+**Template file:** `partials/greeting.html`
+
+The _greeting_ partial renders the salutation displayed above the message body.
+The partial is included by the `greeting` block of the [base template](#base-template).
+
+??? info "Available Template Fields"
+
+    | Field Name       | Type  | Description                        |
+    |------------------|-------|------------------------------------|
+    | `recipient_name` | `str` | Display name of the notified user. |
+
+    Any field available to the including template can also be referenced from the partial.
+
+??? abstract "Default Template Content"
+
+    ```html
+    --8<-- "submodules/keystone-api/keystone_api/templates/partials/greeting.html"
+    ```
+
+### Signoff
+
+**Template file:** `partials/signoff.html`
+
+The _signoff_ partial renders the closing remarks and signature displayed below the message body.
+The partial is included by the `signoff` block of the [base template](#base-template).
+The default content does not reference any context fields.
+
+??? abstract "Default Template Content"
+
+    ```html
+    --8<-- "submodules/keystone-api/keystone_api/templates/partials/signoff.html"
+    ```
+
+### Footer
+
+**Template file:** `partials/footer.html`
+
+The _footer_ partial renders organization branding and copyright notices at the bottom of the message.
+The partial is included by the `footer` block of the [base template](#base-template).
+The default content does not reference any context fields.
+
+??? abstract "Default Template Content"
+
+    ```html
+    --8<-- "submodules/keystone-api/keystone_api/templates/partials/footer.html"
+    ```
+
 ## Templates
 
 The following templates are available for customization.
-
-### Common Fields
-
-The following fields are available to all notification templates.
-All other fields are specific to the notification being issued and are listed in full in later sections.
-
-!!! info "Available Template Fields"
-
-    | Field Name       | Type    | Description                                                       |
-    |------------------|---------|-------------------------------------------------------------------|
-    | `frontend_url`   | `str`   | Base URL of the frontend application, without a trailing slash.   |
 
 ### Base Template
 
 **Template file:** `base.html`
 
 The base template serves as the parent layout for all notification content, providing top-level styling and structure.
-The template defines two content blocks that child templates override to inject content.
+The template defines four content blocks that child templates override to inject content.
+The greeting, signoff, and footer blocks are rendered using [partial templates](#partials) by default.
 
-??? info "Available Template Fields"
+??? info "Available Template Blocks"
 
-    | Block Name   | Description                                              |
-    |--------------|----------------------------------------------------------|
-    | `main`       | Main body content of the email notification.             |
-    | `footer`     | Footer content displayed at the bottom of the message.   |
+    | Block Name | Description                                            |
+    |------------|--------------------------------------------------------|
+    | `greeting` | Salutation rendered above the message body.            |
+    | `main`     | Main body content of the email notification.           |
+    | `signoff`  | Closing remarks rendered below the message body.       |
+    | `footer`   | Footer content displayed at the bottom of the message. |
 
 ??? abstract "Default Template Content"
 
@@ -72,12 +120,11 @@ The message body is provided by the notification sender and rendered as the enti
 
 ??? info "Available Template Fields"
 
-    | Field Name     | Type    | Description                               |
-    |----------------|---------|-------------------------------------------|
-    | `user_name`    | `str`   | Username of the notified user.            |
-    | `user_first`   | `str`   | First name of the notified user.          |
-    | `user_last`    | `str`   | Last name of the notified user.           |
-    | `message`      | `str`   | Body of the message sent to the user.     |
+    | Field Name       | Type  | Description                                                     |
+    |------------------|-------|-----------------------------------------------------------------|
+    | `recipient_name` | `str` | Display name of the notified user.                              |
+    | `message`        | `str` | Body of the message sent to the user.                           |
+    | `frontend_url`   | `str` | Base URL of the frontend application, without a trailing slash. |
 
 ??? abstract "Default Template Content"
 
@@ -94,22 +141,22 @@ A summary of the new record is included in the message body.
 
 ??? info "Available Template Fields"
 
-    | Field Name          | Type               | Description                                                      |
-    |---------------------|--------------------|------------------------------------------------------------------|
-    | `user_name`         | `str`              | Username of the notified user.                                   |
-    | `user_first`        | `str`              | First name of the notified user.                                 |
-    | `user_last`         | `str`              | Last name of the notified user.                                  |
-    | `team_name`         | `str`              | Name of the team the notification was issued for.                |
-    | `actor_username`    | `str`              | Username of the user who created the grant record.               |
-    | `record_modified`   | `datetime`         | Date and time when the grant record was created.                 |
-    | `grant_title`       | `str`              | Title of the grant.                                              |
-    | `grant_agency`      | `str`              | Name of the agency funding the grant.                            |
-    | `grant_number`      | `str` or `None`    | Identification number assigned to the grant by the agency.       |
-    | `grant_pi`          | `str` or `None`    | Name of the principal investigator.                              |
-    | `grant_amount`      | `float`            | Total amount awarded under the grant.                            |
-    | `grant_start`       | `date`             | Date when the grant period begins.                               |
-    | `grant_end`         | `date` or `None`   | Date when the grant period ends.                                 |
-    | `grant_team`        | `str`              | Name of the team associated with the grant.                      |
+    | Field Name       | Type             | Description                                                            |
+    |------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name` | `str`            | Display name of the notified user.                                     |
+    | `submitter_name` | `str`            | Display name of the user who created the grant record.                 |
+    | `event_date`     | `datetime`       | Date and time when the grant record was created.                       |
+    | `grant_id`       | `int`            | ID of the new grant record.                                            |
+    | `grant_title`    | `str`            | Title of the grant.                                                    |
+    | `grant_agency`   | `str`            | Name of the agency funding the grant.                                  |
+    | `grant_number`   | `str` or `None`  | Identification number assigned to the grant by the agency.             |
+    | `grant_pi`       | `str` or `None`  | Name of the principal investigator.                                    |
+    | `grant_amount`   | `float`          | Total amount awarded under the grant.                                  |
+    | `grant_start`    | `date`           | Date when the grant period begins.                                     |
+    | `grant_end`      | `date` or `None` | Date when the grant period ends.                                       |
+    | `team_name`      | `str`            | Name of the team associated with the grant.                            |
+    | `team_slug`      | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`   | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -126,23 +173,22 @@ The message body reflects the state of the record after the modification was app
 
 ??? info "Available Template Fields"
 
-    | Field Name          | Type               | Description                                                  |
-    |---------------------|--------------------|--------------------------------------------------------------|
-    | `user_name`         | `str`              | Username of the notified user.                               |
-    | `user_first`        | `str`              | First name of the notified user.                             |
-    | `user_last`         | `str`              | Last name of the notified user.                              |
-    | `team_name`         | `str`              | Name of the team the notification was issued for.            |
-    | `actor_username`    | `str`              | Username of the user who modified the grant record.          |
-    | `record_modified`   | `datetime`         | Date and time when the grant record was modified.            |
-    | `grant_id`          | `int`              | ID of the modified grant record.                             |
-    | `grant_title`       | `str`              | Title of the grant.                                          |
-    | `grant_agency`      | `str`              | Name of the agency funding the grant.                        |
-    | `grant_number`      | `str` or `None`    | Identification number assigned to the grant by the agency.   |
-    | `grant_pi`          | `str` or `None`    | Name of the principal investigator.                          |
-    | `grant_amount`      | `float`            | Total amount awarded under the grant.                        |
-    | `grant_start`       | `date`             | Date when the grant period begins.                           |
-    | `grant_end`         | `date` or `None`   | Date when the grant period ends.                             |
-    | `grant_team`        | `str`              | Name of the team associated with the grant.                  |
+    | Field Name       | Type             | Description                                                            |
+    |------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name` | `str`            | Display name of the notified user.                                     |
+    | `submitter_name` | `str`            | Display name of the user who modified the grant record.                |
+    | `event_date`     | `datetime`       | Date and time when the grant record was modified.                      |
+    | `grant_id`       | `int`            | ID of the modified grant record.                                       |
+    | `grant_title`    | `str`            | Title of the grant.                                                    |
+    | `grant_agency`   | `str`            | Name of the agency funding the grant.                                  |
+    | `grant_number`   | `str` or `None`  | Identification number assigned to the grant by the agency.             |
+    | `grant_pi`       | `str` or `None`  | Name of the principal investigator.                                    |
+    | `grant_amount`   | `float`          | Total amount awarded under the grant.                                  |
+    | `grant_start`    | `date`           | Date when the grant period begins.                                     |
+    | `grant_end`      | `date` or `None` | Date when the grant period ends.                                       |
+    | `team_name`      | `str`            | Name of the team associated with the grant.                            |
+    | `team_slug`      | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`   | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -159,16 +205,16 @@ Only identifying details of the deleted record are available to the template.
 
 ??? info "Available Template Fields"
 
-    | Field Name          | Type         | Description                                          |
-    |---------------------|--------------|------------------------------------------------------|
-    | `user_name`         | `str`        | Username of the notified user.                       |
-    | `user_first`        | `str`        | First name of the notified user.                     |
-    | `user_last`         | `str`        | Last name of the notified user.                      |
-    | `team_name`         | `str`        | Name of the team the notification was issued for.    |
-    | `actor_username`    | `str`        | Username of the user who deleted the grant record.   |
-    | `record_modified`   | `datetime`   | Date and time when the grant record was deleted.     |
-    | `grant_id`          | `int`        | ID of the deleted grant record.                      |
-    | `grant_title`       | `str`        | Title of the deleted grant.                          |
+    | Field Name       | Type       | Description                                                            |
+    |------------------|------------|------------------------------------------------------------------------|
+    | `recipient_name` | `str`      | Display name of the notified user.                                     |
+    | `submitter_name` | `str`      | Display name of the user who deleted the grant record.                 |
+    | `event_date`     | `datetime` | Date and time when the grant record was deleted.                       |
+    | `grant_id`       | `int`      | ID of the deleted grant record.                                        |
+    | `grant_title`    | `str`      | Title of the deleted grant.                                            |
+    | `team_name`      | `str`      | Name of the team associated with the grant.                            |
+    | `team_slug`      | `str`      | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`   | `str`      | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -185,22 +231,22 @@ A summary of the new record is included in the message body.
 
 ??? info "Available Template Fields"
 
-    | Field Name                | Type               | Description                                                |
-    |---------------------------|--------------------|------------------------------------------------------------|
-    | `user_name`               | `str`              | Username of the notified user.                             |
-    | `user_first`              | `str`              | First name of the notified user.                           |
-    | `user_last`               | `str`              | Last name of the notified user.                            |
-    | `team_name`               | `str`              | Name of the team the notification was issued for.          |
-    | `actor_username`          | `str`              | Username of the user who created the publication record.   |
-    | `record_modified`         | `datetime`         | Date and time when the publication record was created.     |
-    | `publication_title`       | `str`              | Title of the publication.                                  |
-    | `publication_journal`     | `str` or `None`    | Name of the journal the publication appears in.            |
-    | `publication_volume`      | `str` or `None`    | Journal volume the publication appears in.                 |
-    | `publication_issue`       | `str` or `None`    | Journal issue the publication appears in.                  |
-    | `publication_doi`         | `str` or `None`    | Digital Object Identifier assigned to the publication.     |
-    | `publication_submitted`   | `date` or `None`   | Date when the publication was submitted.                   |
-    | `publication_published`   | `date` or `None`   | Date when the publication was published.                   |
-    | `publication_team`        | `str`              | Name of the team associated with the publication.          |
+    | Field Name              | Type             | Description                                                            |
+    |-------------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`        | `str`            | Display name of the notified user.                                     |
+    | `submitter_name`        | `str`            | Display name of the user who created the publication record.           |
+    | `event_date`            | `datetime`       | Date and time when the publication record was created.                 |
+    | `publication_id`        | `int`            | ID of the new publication record.                                      |
+    | `publication_title`     | `str`            | Title of the publication.                                              |
+    | `publication_journal`   | `str` or `None`  | Name of the journal the publication appears in.                        |
+    | `publication_volume`    | `str` or `None`  | Journal volume the publication appears in.                             |
+    | `publication_issue`     | `str` or `None`  | Journal issue the publication appears in.                              |
+    | `publication_doi`       | `str` or `None`  | Digital Object Identifier assigned to the publication.                 |
+    | `publication_submitted` | `date` or `None` | Date when the publication was submitted.                               |
+    | `publication_published` | `date` or `None` | Date when the publication was published.                               |
+    | `team_name`             | `str`            | Name of the team associated with the publication.                      |
+    | `team_slug`             | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`          | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -217,23 +263,22 @@ The message body reflects the state of the record after the modification was app
 
 ??? info "Available Template Fields"
 
-    | Field Name                | Type               | Description                                                 |
-    |---------------------------|--------------------|-------------------------------------------------------------|
-    | `user_name`               | `str`              | Username of the notified user.                              |
-    | `user_first`              | `str`              | First name of the notified user.                            |
-    | `user_last`               | `str`              | Last name of the notified user.                             |
-    | `team_name`               | `str`              | Name of the team the notification was issued for.           |
-    | `actor_username`          | `str`              | Username of the user who modified the publication record.   |
-    | `record_modified`         | `datetime`         | Date and time when the publication record was modified.     |
-    | `publication_id`          | `int`              | ID of the modified publication record.                      |
-    | `publication_title`       | `str`              | Title of the publication.                                   |
-    | `publication_journal`     | `str` or `None`    | Name of the journal the publication appears in.             |
-    | `publication_volume`      | `str` or `None`    | Journal volume the publication appears in.                  |
-    | `publication_issue`       | `str` or `None`    | Journal issue the publication appears in.                   |
-    | `publication_doi`         | `str` or `None`    | Digital Object Identifier assigned to the publication.      |
-    | `publication_submitted`   | `date` or `None`   | Date when the publication was submitted.                    |
-    | `publication_published`   | `date` or `None`   | Date when the publication was published.                    |
-    | `publication_team`        | `str`              | Name of the team associated with the publication.           |
+    | Field Name              | Type             | Description                                                            |
+    |-------------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`        | `str`            | Display name of the notified user.                                     |
+    | `submitter_name`        | `str`            | Display name of the user who modified the publication record.          |
+    | `event_date`            | `datetime`       | Date and time when the publication record was modified.                |
+    | `publication_id`        | `int`            | ID of the modified publication record.                                 |
+    | `publication_title`     | `str`            | Title of the publication.                                              |
+    | `publication_journal`   | `str` or `None`  | Name of the journal the publication appears in.                        |
+    | `publication_volume`    | `str` or `None`  | Journal volume the publication appears in.                             |
+    | `publication_issue`     | `str` or `None`  | Journal issue the publication appears in.                              |
+    | `publication_doi`       | `str` or `None`  | Digital Object Identifier assigned to the publication.                 |
+    | `publication_submitted` | `date` or `None` | Date when the publication was submitted.                               |
+    | `publication_published` | `date` or `None` | Date when the publication was published.                               |
+    | `team_name`             | `str`            | Name of the team associated with the publication.                      |
+    | `team_slug`             | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`          | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -250,16 +295,16 @@ Only identifying details of the deleted record are available to the template.
 
 ??? info "Available Template Fields"
 
-    | Field Name            | Type         | Description                                                |
-    |-----------------------|--------------|------------------------------------------------------------|
-    | `user_name`           | `str`        | Username of the notified user.                             |
-    | `user_first`          | `str`        | First name of the notified user.                           |
-    | `user_last`           | `str`        | Last name of the notified user.                            |
-    | `team_name`           | `str`        | Name of the team the notification was issued for.          |
-    | `actor_username`      | `str`        | Username of the user who deleted the publication record.   |
-    | `record_modified`     | `datetime`   | Date and time when the publication record was deleted.     |
-    | `publication_id`      | `int`        | ID of the deleted publication record.                      |
-    | `publication_title`   | `str`        | Title of the deleted publication.                          |
+    | Field Name          | Type       | Description                                                            |
+    |---------------------|------------|------------------------------------------------------------------------|
+    | `recipient_name`    | `str`      | Display name of the notified user.                                     |
+    | `submitter_name`    | `str`      | Display name of the user who deleted the publication record.           |
+    | `event_date`        | `datetime` | Date and time when the publication record was deleted.                 |
+    | `publication_id`    | `int`      | ID of the deleted publication record.                                  |
+    | `publication_title` | `str`      | Title of the deleted publication.                                      |
+    | `team_name`         | `str`      | Name of the team associated with the publication.                      |
+    | `team_slug`         | `str`      | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`      | `str`      | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -278,21 +323,22 @@ cluster.
 
 ??? info "Available Template Fields"
 
-    | Field Name         | Type               | Description                                                             |
-    |--------------------|--------------------|-------------------------------------------------------------------------|
-    | `recipient_name`   | `str`              | Display name of the notified user.                                      |
-    | `submitter_name`   | `str`              | Display name of the user who submitted the request.                     |
-    | `event_date`       | `date` or `None`   | Date when the allocation request was submitted.                         |
-    | `request_id`       | `int`              | ID of the allocation request being notified about.                      |
-    | `request_title`    | `str`              | Title of the allocation request.                                        |
-    | `request_status`   | `str`              | Human readable status of the allocation request.                        |
-    | `request_active`   | `date` or `None`   | Date when the allocation request becomes active.                        |
-    | `request_expire`   | `date` or `None`   | Date when the allocation request expires.                               |
-    | `team_name`        | `str`              | Name of the team associated with the allocation request.                |
-    | `team_slug`        | `str`              | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `allocations`      | `tuple[dict]`      | Allocated resources tied to the request. Each item includes:            |
-    | ├ `cluster`        | `str`              | Name of the cluster where the resource is allocated.                    |
-    | └ `requested`      | `int`              | Number of service units requested (or `0` if unavailable).              |
+    | Field Name       | Type             | Description                                                            |
+    |------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name` | `str`            | Display name of the notified user.                                     |
+    | `submitter_name` | `str`            | Display name of the user who submitted the request.                    |
+    | `event_date`     | `date` or `None` | Date when the allocation request was submitted.                        |
+    | `request_id`     | `int`            | ID of the allocation request being notified about.                     |
+    | `request_title`  | `str`            | Title of the allocation request.                                       |
+    | `request_status` | `str`            | Human readable status of the allocation request.                       |
+    | `request_active` | `date` or `None` | Date when the allocation request becomes active.                       |
+    | `request_expire` | `date` or `None` | Date when the allocation request expires.                              |
+    | `team_name`      | `str`            | Name of the team associated with the allocation request.               |
+    | `team_slug`      | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `allocations`    | `tuple[dict]`    | Allocated resources tied to the request. Each item includes:           |
+    | ├ `cluster`      | `str`            | Name of the cluster where the resource is allocated.                   |
+    | └ `requested`    | `int`            | Number of service units requested (or `0` if unavailable).             |
+    | `frontend_url`   | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -306,29 +352,30 @@ cluster.
 
 The _reviewer assigned_ notification alerts a staff user that they have been assigned as a reviewer for a resource
 allocation request.
-In addition to a snapshot of the request, the message lists any other reviewers assigned to the same request so
-reviewers can coordinate their work.
+In addition to a snapshot of the request, the template has access to any other reviewers assigned to the same request
+so reviewers can coordinate their work.
 
 ??? info "Available Template Fields"
 
-    | Field Name              | Type               | Description                                                             |
-    |-------------------------|--------------------|-------------------------------------------------------------------------|
-    | `recipient_name`        | `str`              | Display name of the notified user.                                      |
-    | `submitter_name`        | `str`              | Display name of the user who made the reviewer assignment.              |
-    | `event_date`            | `datetime`         | Date and time when the assignment was made.                             |
-    | `request_id`            | `int`              | ID of the allocation request being notified about.                      |
-    | `request_title`         | `str`              | Title of the allocation request.                                        |
-    | `request_status`        | `str`              | Human readable status of the allocation request.                        |
-    | `request_submitted`     | `date` or `None`   | Date when the allocation request was submitted.                         |
-    | `request_active`        | `date` or `None`   | Date when the allocation request becomes active.                        |
-    | `request_expire`        | `date` or `None`   | Date when the allocation request expires.                               |
-    | `team_name`             | `str`              | Name of the team associated with the allocation request.                |
-    | `team_slug`             | `str`              | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `request_coassignees`   | `tuple[dict]`      | Other reviewers assigned to the request. Each item includes:            |
-    | └ `name`                | `str`              | Display name of the coassigned reviewer.                                |
-    | `allocations`           | `tuple[dict]`      | Allocated resources tied to the request. Each item includes:            |
-    | ├ `cluster`             | `str`              | Name of the cluster where the resource is allocated.                    |
-    | └ `requested`           | `int`              | Number of service units requested (or `0` if unavailable).              |
+    | Field Name            | Type             | Description                                                            |
+    |-----------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`      | `str`            | Display name of the notified user.                                     |
+    | `submitter_name`      | `str`            | Display name of the user who made the reviewer assignment.             |
+    | `event_date`          | `datetime`       | Date and time when the assignment was made.                            |
+    | `request_id`          | `int`            | ID of the allocation request being notified about.                     |
+    | `request_title`       | `str`            | Title of the allocation request.                                       |
+    | `request_status`      | `str`            | Human readable status of the allocation request.                       |
+    | `request_submitted`   | `date` or `None` | Date when the allocation request was submitted.                        |
+    | `request_active`      | `date` or `None` | Date when the allocation request becomes active.                       |
+    | `request_expire`      | `date` or `None` | Date when the allocation request expires.                              |
+    | `request_coassignees` | `tuple[dict]`    | Other reviewers assigned to the request. Each item includes:           |
+    | └ `name`              | `str`            | Display name of the coassigned reviewer.                               |
+    | `team_name`           | `str`            | Name of the team associated with the allocation request.               |
+    | `team_slug`           | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `allocations`         | `tuple[dict]`    | Allocated resources tied to the request. Each item includes:           |
+    | ├ `cluster`           | `str`            | Name of the cluster where the resource is allocated.                   |
+    | └ `requested`         | `int`            | Number of service units requested (or `0` if unavailable).             |
+    | `frontend_url`        | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -346,18 +393,19 @@ reviewers.
 
 ??? info "Available Template Fields"
 
-    | Field Name             | Type         | Description                                                             |
-    |------------------------|--------------|-------------------------------------------------------------------------|
-    | `recipient_name`       | `str`        | Display name of the notified user.                                      |
-    | `submitter_name`       | `str`        | Display name of the comment author.                                     |
-    | `event_date`           | `datetime`   | Date and time when the comment was created.                             |
-    | `request_id`           | `int`        | ID of the allocation request being notified about.                      |
-    | `request_title`        | `str`        | Title of the allocation request.                                        |
-    | `request_status`       | `str`        | Human readable status of the allocation request.                        |
-    | `team_name`            | `str`        | Name of the team associated with the allocation request.                |
-    | `team_slug`            | `str`        | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `comment_content`      | `str`        | Body of the comment, sanitized for safe rendering as HTML.              |
-    | `comment_is_private`   | `bool`       | Whether the comment is only visible to staff reviewers.                 |
+    | Field Name           | Type       | Description                                                            |
+    |----------------------|------------|------------------------------------------------------------------------|
+    | `recipient_name`     | `str`      | Display name of the notified user.                                     |
+    | `submitter_name`     | `str`      | Display name of the comment author.                                    |
+    | `event_date`         | `datetime` | Date and time when the comment was created.                            |
+    | `request_id`         | `int`      | ID of the allocation request being notified about.                     |
+    | `request_title`      | `str`      | Title of the allocation request.                                       |
+    | `request_status`     | `str`      | Human readable status of the allocation request.                       |
+    | `comment_content`    | `str`      | Body of the comment, sanitized for safe rendering as HTML.             |
+    | `comment_is_private` | `bool`     | Whether the comment is only visible to staff reviewers.                |
+    | `team_name`          | `str`      | Name of the team associated with the allocation request.               |
+    | `team_slug`          | `str`      | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `frontend_url`       | `str`      | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -370,29 +418,30 @@ reviewers.
 **Template file:** `request_status_changed.html`
 
 The _status changed_ notification alerts users that the status of a resource allocation request has changed.
-The default template branches on the `request_status` field to render dedicated messaging for approved, declined, and
-changes requested reviews, and falls back to a generic message describing the old and new status for all other
-transitions.
+The default template branches on the `request_status` field to render dedicated messaging for approved requests,
+including a summary of the awarded resources, and falls back to a generic message describing the old and new status
+for all other transitions.
 
 ??? info "Available Template Fields"
 
-    | Field Name                  | Type               | Description                                                             |
-    |-----------------------------|--------------------|-------------------------------------------------------------------------|
-    | `recipient_name`            | `str`              | Display name of the notified user.                                      |
-    | `submitter_name`            | `str`              | Display name of the user who changed the request status.                |
-    | `event_date`                | `datetime`         | Date and time when the status change was recorded.                      |
-    | `request_id`                | `int`              | ID of the allocation request being notified about.                      |
-    | `request_title`             | `str`              | Title of the allocation request.                                        |
-    | `request_status`            | `str`              | Human readable status of the request after the change.                  |
-    | `request_status_previous`   | `str`              | Human readable status of the request before the change.                 |
-    | `request_active`            | `date` or `None`   | Date when the allocation request becomes active.                        |
-    | `request_expire`            | `date` or `None`   | Date when the allocation request expires.                               |
-    | `team_name`                 | `str`              | Name of the team associated with the allocation request.                |
-    | `team_slug`                 | `str`              | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `allocations`               | `tuple[dict]`      | Allocated resources tied to the request. Each item includes:            |
-    | ├ `cluster`                 | `str`              | Name of the cluster where the resource is allocated.                    |
-    | ├ `requested`               | `int`              | Number of service units requested (or `0` if unavailable).              |
-    | └ `awarded`                 | `int` or `None`    | Number of service units awarded (or `None` if not yet awarded).         |
+    | Field Name                | Type             | Description                                                            |
+    |---------------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`          | `str`            | Display name of the notified user.                                     |
+    | `submitter_name`          | `str`            | Display name of the user who changed the request status.               |
+    | `event_date`              | `datetime`       | Date and time when the status change was recorded.                     |
+    | `request_id`              | `int`            | ID of the allocation request being notified about.                     |
+    | `request_title`           | `str`            | Title of the allocation request.                                       |
+    | `request_status`          | `str`            | Human readable status of the request after the change.                 |
+    | `request_status_previous` | `str`            | Human readable status of the request before the change.                |
+    | `request_active`          | `date` or `None` | Date when the allocation request becomes active.                       |
+    | `request_expire`          | `date` or `None` | Date when the allocation request expires.                              |
+    | `team_name`               | `str`            | Name of the team associated with the allocation request.               |
+    | `team_slug`               | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `allocations`             | `tuple[dict]`    | Allocated resources tied to the request. Each item includes:           |
+    | ├ `cluster`               | `str`            | Name of the cluster where the resource is allocated.                   |
+    | ├ `requested`             | `int`            | Number of service units requested (or `0` if unavailable).             |
+    | └ `awarded`               | `int` or `None`  | Number of service units awarded (or `None` if not yet awarded).        |
+    | `frontend_url`            | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -409,26 +458,27 @@ its expiration date.
 
 ??? info "Available Template Fields"
 
-    | Field Name                     | Type               | Description                                                             |
-    |--------------------------------|--------------------|-------------------------------------------------------------------------|
-    | `recipient_name`               | `str`              | Display name of the notified user.                                      |
-    | `request_id`                   | `int`              | ID of the allocation request being notified about.                      |
-    | `request_title`                | `str`              | Title of the allocation request.                                        |
-    | `request_active`               | `date`             | Date when the allocation request became active.                         |
-    | `request_expire`               | `date`             | Date when the allocation request expires.                               |
-    | `request_days_until_expire`    | `int`              | Number of days remaining until the request expires.                     |
-    | `team_name`                    | `str`              | Name of the team associated with the allocation request.                |
-    | `team_slug`                    | `str`              | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `allocations`                  | `tuple[dict]`      | Allocated resources tied to the request. Each item includes:            |
-    | ├ `awarded`                    | `int`              | Number of service units awarded (or `0` if unavailable).                |
-    | └ `cluster`                    | `str`              | Name of the cluster where the resource is allocated.                    |
-    | `upcoming_requests`            | `tuple[dict]`      | Other active or pending requests for the team. Each item includes:      |
-    | ├ `active`                     | `date` or `None`   | Date when the upcoming request became active.                           |
-    | ├ `expire`                     | `date` or `None`   | Date when the upcoming request expires.                                 |
-    | ├ `id`                         | `int`              | ID of the upcoming allocation request.                                  |
-    | ├ `status`                     | `str`              | Human readable status of the upcoming allocation request.               |
-    | ├ `submitted`                  | `date` or `None`   | Date when the upcoming request was submitted.                           |
-    | └ `title`                      | `str`              | Title of the upcoming allocation request.                               |
+    | Field Name                  | Type             | Description                                                            |
+    |-----------------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`            | `str`            | Display name of the notified user.                                     |
+    | `request_id`                | `int`            | ID of the allocation request being notified about.                     |
+    | `request_title`             | `str`            | Title of the allocation request.                                       |
+    | `request_active`            | `date`           | Date when the allocation request became active.                        |
+    | `request_expire`            | `date`           | Date when the allocation request expires.                              |
+    | `request_days_until_expire` | `int`            | Number of days remaining until the request expires.                    |
+    | `team_name`                 | `str`            | Name of the team associated with the allocation request.               |
+    | `team_slug`                 | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `allocations`               | `tuple[dict]`    | Allocated resources tied to the request. Each item includes:           |
+    | ├ `awarded`                 | `int`            | Number of service units awarded (or `0` if unavailable).               |
+    | └ `cluster`                 | `str`            | Name of the cluster where the resource is allocated.                   |
+    | `upcoming_requests`         | `tuple[dict]`    | Other active or pending requests for the team. Each item includes:     |
+    | ├ `active`                  | `date` or `None` | Date when the upcoming request became active.                          |
+    | ├ `expire`                  | `date` or `None` | Date when the upcoming request expires.                                |
+    | ├ `id`                      | `int`            | ID of the upcoming allocation request.                                 |
+    | ├ `status`                  | `str`            | Human readable status of the upcoming allocation request.              |
+    | ├ `submitted`               | `date` or `None` | Date when the upcoming request was submitted.                          |
+    | └ `title`                   | `str`            | Title of the upcoming allocation request.                              |
+    | `frontend_url`              | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
@@ -445,26 +495,27 @@ and that the resources granted under that allocation are no longer available for
 
 ??? info "Available Template Fields"
 
-    | Field Name            | Type               | Description                                                             |
-    |-----------------------|--------------------|-------------------------------------------------------------------------|
-    | `recipient_name`      | `str`              | Display name of the notified user.                                      |
-    | `request_id`          | `int`              | ID of the allocation request being notified about.                      |
-    | `request_title`       | `str`              | Title of the allocation request.                                        |
-    | `request_active`      | `date`             | Date when the allocation request became active.                         |
-    | `request_expire`      | `date`             | Date when the allocation request expired.                               |
-    | `team_name`           | `str`              | Name of the team associated with the allocation request.                |
-    | `team_slug`           | `str`              | URL safe identifier for the team, suitable for building frontend URLs.  |
-    | `allocations`         | `tuple[dict]`      | Allocated resources tied to the request. Each item includes:            |
-    | ├ `awarded`           | `int`              | Number of service units awarded (or `0` if unavailable).                |
-    | ├ `cluster`           | `str`              | Name of the cluster where the resource is allocated.                    |
-    | └ `final`             | `int`              | Number of service units used by the team (or `0` if unavailable).       |
-    | `upcoming_requests`   | `tuple[dict]`      | Other active or pending requests for the team. Each item includes:      |
-    | ├ `active`            | `date` or `None`   | Date when the upcoming request became active.                           |
-    | ├ `expire`            | `date` or `None`   | Date when the upcoming request expires.                                 |
-    | ├ `id`                | `int`              | ID of the upcoming allocation request.                                  |
-    | ├ `status`            | `str`              | Human readable status of the upcoming allocation request.               |
-    | ├ `submitted`         | `date` or `None`   | Date when the upcoming request was submitted.                           |
-    | └ `title`             | `str`              | Title of the upcoming allocation request.                               |
+    | Field Name          | Type             | Description                                                            |
+    |---------------------|------------------|------------------------------------------------------------------------|
+    | `recipient_name`    | `str`            | Display name of the notified user.                                     |
+    | `request_id`        | `int`            | ID of the allocation request being notified about.                     |
+    | `request_title`     | `str`            | Title of the allocation request.                                       |
+    | `request_active`    | `date`           | Date when the allocation request became active.                        |
+    | `request_expire`    | `date`           | Date when the allocation request expired.                              |
+    | `team_name`         | `str`            | Name of the team associated with the allocation request.               |
+    | `team_slug`         | `str`            | URL safe identifier for the team, suitable for building frontend URLs. |
+    | `allocations`       | `tuple[dict]`    | Allocated resources tied to the request. Each item includes:           |
+    | ├ `awarded`         | `int`            | Number of service units awarded (or `0` if unavailable).               |
+    | ├ `cluster`         | `str`            | Name of the cluster where the resource is allocated.                   |
+    | └ `final`           | `int`            | Number of service units used by the team (or `0` if unavailable).      |
+    | `upcoming_requests` | `tuple[dict]`    | Other active or pending requests for the team. Each item includes:     |
+    | ├ `active`          | `date` or `None` | Date when the upcoming request became active.                          |
+    | ├ `expire`          | `date` or `None` | Date when the upcoming request expires.                                |
+    | ├ `id`              | `int`            | ID of the upcoming allocation request.                                 |
+    | ├ `status`          | `str`            | Human readable status of the upcoming allocation request.              |
+    | ├ `submitted`       | `date` or `None` | Date when the upcoming request was submitted.                          |
+    | └ `title`           | `str`            | Title of the upcoming allocation request.                              |
+    | `frontend_url`      | `str`            | Base URL of the frontend application, without a trailing slash.        |
 
 ??? abstract "Default Template Content"
 
