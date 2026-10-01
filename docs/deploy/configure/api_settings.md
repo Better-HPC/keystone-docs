@@ -40,19 +40,19 @@ When using a reverse proxy for TLS, the settings below can be left at their defa
 | `SECURE_HSTS_SUBDOMAINS` | `False`        | Enable HSTS for subdomains.                       |
 | `SECURE_HSTS_PRELOAD`    | `False`        | Enable HSTS preload functionality.                |
 
-### Auth Tokens
+### Authorized Domains
 
 The following settings define which domains are allowed to interact with the API server.
 These settings should be made as restrictive as possible, helping prevent unauthorized
 access to the API.
 
-| Setting Name             | Default Value                        <br/><br/> | Description                                                                                      |
-|--------------------------|-------------------------------------------------|--------------------------------------------------------------------------------------------------|
-| `SECURE_SSL_TOKENS`      | `False`                                         | Only issue session/CSRF tokens over secure connections.                                          |
-| `SECURE_ALLOWED_HOSTS`   | <code>localhost,127.0.0.1</code>                | Comma-separated list of api host/domain names (**without** protocol).                            |
-| `SECURE_ALLOWED_ORIGINS` | _See default local addresses._                  | Comma-separated list of accepted client origin domains (**with** protocol).                      |
-| `SECURE_SESSION_AGE`     | `1209600` (2 weeks)                             | Number of seconds before session tokens expire.                                                  |
-| `SECURE_TOKEN_DOMAIN`    | None                                            | Domain attribute for session/csrf cookies. Set for cross-subdomain usage (e.g., `.example.com`). |
+| Setting Name             | Default Value                        <br/><br/> | Description                                                                                          |
+|--------------------------|-------------------------------------------------|------------------------------------------------------------------------------------------------------|
+| `SECURE_SSL_TOKENS`      | `False`                                         | Only issue session/CSRF tokens over secure connections.                                              |
+| `SECURE_ALLOWED_HOSTS`   | <code>localhost,127.0.0.1</code>                | Comma-separated list of api host/domain names (**without** protocol).                                |
+| `SECURE_ALLOWED_ORIGINS` | _See default local addresses._                  | Comma-separated list of accepted client origin domains (**with** protocol).                          |
+| `SECURE_SESSION_AGE`     | `1209600` (2 weeks)                             | Number of seconds before session tokens expire.                                                      |
+| `SECURE_TOKEN_DOMAIN`    | None                                            | The domain attribute for session/csrf cookies. Set for cross-subdomain usage (e.g., `.example.com`). |
 
 In most deployments, the settings above should be configured as follows:
 
