@@ -11,21 +11,21 @@ using any standard Python package manager:
 === "pip"
 
     ```sh
-    BHPC_REPO="https://dl.cloudsmith.io/public/better-hpc/keystone/python/simple/"
+    BHPC_REPO="https://artifacts.bhpc.dev/pypi/keystone-python-client/simple/"
     pip install --extra-index-url=$BHPC_REPO keystone-api-client
     ```
 
 === "uv"
 
     ```sh
-    BHPC_REPO="https://dl.cloudsmith.io/public/better-hpc/keystone/python/simple/"
+    BHPC_REPO="https://artifacts.bhpc.dev/pypi/keystone-python-client/simple/"
     uv add --index=$BHPC_REPO keystone-api-client
     ```
 
 === "poetry"
 
     ```sh
-    BHPC_REPO="https://dl.cloudsmith.io/public/better-hpc/keystone/python/simple/"
+    BHPC_REPO="https://artifacts.bhpc.dev/pypi/keystone-python-client/simple/"
     poetry source add --priority=supplemental bhpc $BHPC_REPO
     poetry add keystone-api-client
     ```

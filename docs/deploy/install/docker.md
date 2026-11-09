@@ -32,7 +32,7 @@ docker run \
   --publish 8000:80 \
   --name keystone \
   --env SECRET_KEY="this-is-a-secure-secret"
-  docker.cloudsmith.io/better-hpc/keystone/keystone-api:latest
+  artifacts.bhpc.dev/keystone/keystone-api:latest
 ```
 
 The container will automatically launch minimal instances for all required
@@ -70,7 +70,7 @@ docker run \
   --publish 80:80 \
   --name keystone-web \
   --env API_URL="http://localhost:8000" \
-  docker.cloudsmith.io/better-hpc/keystone/keystone-web:latest
+  artifacts.bhpc.dev/keystone//keystone-web:latest
 ```
 
 Once both containers are running, the web interface will be available at
