@@ -8,7 +8,7 @@ Doing so requires administrative privileges and assumes you are familiar with ma
 The `keystone_api` package can be installed using the `pipx` package manager.
 
 ```bash
-BHPC_REPO="https://dl.cloudsmith.io/public/better-hpc/keystone/python/simple/"
+BHPC_REPO="https://artifacts.bhpc.dev/pypi/keystone-python/simple/"
 pipx install --extra-index-url=$BHPC_REPO --include-deps keystone-api
 ```
 
