@@ -8,7 +8,7 @@ This repository leverages submodules.
 To clone the repository with submodules included:
 
 ```shell
-git clone [URL] --recurse-submodules
+git clone https://github.com/Better-HPC/keystone-docs --recurse-submodules
 ```
 
 Submodules can also be pulled and updated manually:
