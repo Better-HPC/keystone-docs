@@ -12,8 +12,16 @@ extra_javascript = [
     "assets/javascripts/tex-mml-chtml.js",
 ]
 
+# Exclude source code from submodules from being included in the build
+# Explicitly include any individual files suitible for public consumption
 exclude_docs = """
 assets/submodules/
+!/assets/submodules/keystone-demo/demo/prometheus/prometheus.yml
+!/assets/submodules/keystone-demo/demo/prometheus/alert.rules.yml
+!/assets/submodules/keystone-demo/demo/grafana/dashboards/keystone_api.json
+!/assets/submodules/keystone-demo/demo/grafana/dashboards/keystone_celery.jso
+!/assets/submodules/keystone-demo/demo/grafana/dashboards/keystone_db.json
+!/assets/submodules/keystone-demo/demo/grafana/dashboards/keystone_logs.json
 """
 
 nav = [
