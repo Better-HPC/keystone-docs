@@ -17,17 +17,15 @@ Submodules can also be pulled and updated manually:
 git submodule update --init
 ```
 
-After ensuring the submodules are up-to-date, make sure to (re)install the project dependencies.
-
-```shell
-pip install -r requirements.txt
-```
-
 Documentation is compiled and served locally using the `zensical` utility.
 
 ```shell
 zensical serve
 ```
+
+By default, content from submodules is excluded from the generated HTML documentation.
+This behavior can be overridden in the zensical.toml configuration file using the `exclude_docs` option if
+specific submodule files need to be included.
 
 ## Working in CI
 
